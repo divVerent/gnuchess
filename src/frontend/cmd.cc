@@ -834,7 +834,7 @@ Play the game of chess.\n\n"), stdout );
  locations according to this precedence: current directory, the\n\
  directory pointed to by environment variable GNUCHESS_PKGDATADIR,\n\
  or the package data directory stated at configure time.\n\
-\n"), stdout );
+\n"), stdout );  // TODO to be reviewed
       fputs( _("\
 Report bugs to <bug-gnu-chess@gnu.org>.\n\
 \n"), stdout );
