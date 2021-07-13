@@ -25,6 +25,7 @@
 
 #include <cstdlib>
 #include <cstring>
+#include <unistd.h>
 
 #include "option.h"
 #include "util.h"
@@ -107,18 +108,40 @@ void option_init() {
    const char optionName[]="gnuchess.ini";
    char optionFile[MaxFileNameSize+1];
    FILE *of;
-   if ( ( of = fopen(optionName, "r") ) != NULL ) {
-      fclose(of);
-      strcpy(optionFile,"");
-   } else {
-      strcpy(optionFile,compute_pkgdatadir());
-      strcat(optionFile,"/");
+
+   const char *xdg_config_home = getenv("XDG_CONFIG_HOME");
+   const char *xdg_config_subdir = "/gnuchess/";
+   const char *homedir = getenv("HOME");
+   const char *home_subdir = "/.config/gnuchess/";
+   bool file_found = false;
+
+   if (xdg_config_home && strlen(xdg_config_home) > 0) {
+      if ( strlen(xdg_config_home) + strlen(xdg_config_subdir) + strlen(optionName) <= MaxFileNameSize) {
+         sprintf(optionFile, "%s%s%s", xdg_config_home, xdg_config_subdir, optionName);
+         if (access(optionFile, F_OK) == 0) {
+            file_found = true;
+         }
+      } else {
+         my_fatal("option_init(): option file name is too long. \"%s%s%s\". Max chars: %d.\n", xdg_config_home, xdg_config_subdir, optionName);
+      }
    }
-   strcat(optionFile,optionName);
+
+   if (!file_found && homedir) {
+      if ( strlen(homedir) + strlen(home_subdir) + strlen(optionName) <= MaxFileNameSize) {
+         sprintf(optionFile, "%s%s%s", homedir, home_subdir, optionName);
+         if (access(optionFile, F_OK) == 0) {
+            file_found = true;
+         }
+      } else {
+         my_fatal("option_init(): option file name is too long. \"%s%s%s\". Max chars: %d.\n", homedir, home_subdir, optionName);
+      }
+   }
 
    // options
 
-   option_set("OptionFile",optionFile);
+   if (file_found) {
+      option_set("OptionFile",optionFile);
+   }
 
    option_set("EngineName","GNU Chess");
    option_set("EngineDir",".");
