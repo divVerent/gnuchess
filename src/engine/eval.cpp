@@ -292,6 +292,16 @@ int eval(const board_t * board) {
    phase = mat_info->phase;
    eval = ((opening * (256 - phase)) + (endgame * phase)) / 256;
 
+   // tempo bonus
+
+   const int tempo_bonus_weight = 10;
+
+   if (COLOUR_IS_WHITE(board->turn)) {
+      eval += tempo_bonus_weight;
+   } else {
+      eval -= tempo_bonus_weight;
+   }
+
    // drawish bishop endgames
 
    if ((mat_info->flags & DrawBishopFlag) != 0) {
