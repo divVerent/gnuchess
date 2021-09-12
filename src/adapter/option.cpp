@@ -96,6 +96,7 @@ static option_t Option[] = {
 // prototypes
 
 static option_t * option_find (const char var[]);
+static bool option_file_find(const char *dir, const char *subdir, const char *filename, char *optionFile);
 
 // functions
 
@@ -116,25 +117,10 @@ void option_init() {
    bool file_found = false;
 
    if (xdg_config_home && strlen(xdg_config_home) > 0) {
-      if ( strlen(xdg_config_home) + strlen(xdg_config_subdir) + strlen(optionName) <= MaxFileNameSize) {
-         sprintf(optionFile, "%s%s%s", xdg_config_home, xdg_config_subdir, optionName);
-         if (access(optionFile, F_OK) == 0) {
-            file_found = true;
-         }
-      } else {
-         my_fatal("option_init(): option file name is too long. \"%s%s%s\". Max chars: %d.\n", xdg_config_home, xdg_config_subdir, optionName);
-      }
+      file_found = option_file_find(xdg_config_home, xdg_config_subdir, optionName, optionFile);
    }
-
    if (!file_found && homedir) {
-      if ( strlen(homedir) + strlen(home_subdir) + strlen(optionName) <= MaxFileNameSize) {
-         sprintf(optionFile, "%s%s%s", homedir, home_subdir, optionName);
-         if (access(optionFile, F_OK) == 0) {
-            file_found = true;
-         }
-      } else {
-         my_fatal("option_init(): option file name is too long. \"%s%s%s\". Max chars: %d.\n", homedir, home_subdir, optionName);
-      }
+      file_found = option_file_find(homedir, home_subdir, optionName, optionFile);
    }
 
    // options
@@ -284,6 +270,24 @@ static option_t * option_find(const char var[]) {
    }
 
    return NULL;
+}
+
+// option_file_find()
+
+bool option_file_find(const char *dir, const char *subdir, const char *filename, char *optionFile) {
+
+   bool file_found = false;
+
+   if ( strlen(dir) + strlen(subdir) + strlen(filename) <= MaxFileNameSize) {
+      sprintf(optionFile, "%s%s%s", dir, subdir, filename);
+      if (access(optionFile, R_OK) == 0) {
+         file_found = true;
+      }
+   } else {
+      my_fatal("option_file_find(): option file name is too long. \"%s%s%s\". Max chars: %d.\n", dir, subdir, filename);
+   }
+
+   return file_found;
 }
 
 }  // namespace adapter
