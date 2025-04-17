@@ -2,7 +2,7 @@
 
    GNU Chess engine
 
-   Copyright (C) 2001-2011 Free Software Foundation, Inc.
+   Copyright (C) 2001-2025 Free Software Foundation, Inc.
 
    This program is free software: you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -107,6 +107,8 @@ static const int FreePasser = 60;
 
 static const int AttackerDistance = 5;
 static const int DefenderDistance = 20;
+
+static const int TempoBonus = 10;
 
 // "constants"
 
@@ -294,12 +296,10 @@ int eval(const board_t * board) {
 
    // tempo bonus
 
-   const int tempo_bonus_weight = 10;
-
    if (COLOUR_IS_WHITE(board->turn)) {
-      eval += tempo_bonus_weight;
+      eval += TempoBonus;
    } else {
-      eval -= tempo_bonus_weight;
+      eval -= TempoBonus;
    }
 
    // drawish bishop endgames
