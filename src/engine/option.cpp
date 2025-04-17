@@ -51,7 +51,7 @@ static option_t Option[] = {
    { "Ponder", true, "false", "check", "", NULL },
 
    { "OwnBook",  true, "true",           "check",  "", NULL },
-   { "BookFile", true, "book_small.bin", "string", "", NULL },
+   { "BookFile", true, "smallbook.bin", "string", "", NULL },
 
    { "NullMove Pruning",       true, "Fail High", "combo", "var Always var Fail High var Never", NULL },
    { "NullMove Reduction",     true, "3",         "spin",  "min 1 max 3", NULL },
