@@ -37,7 +37,7 @@ short SqAtakd (short sq, short side)
  *
  **************************************************************************/
 {
-   register BitBoard *a, b, *c, d, blocker;
+   BitBoard *a, b, *c, d, blocker;
    int t;
 
    a = board.b[side];
@@ -89,7 +89,7 @@ BitBoard AttackTo (int sq, int side)
  *
  ***************************************************************************/
 {
-   register BitBoard *a, b, *c, e, blocker;
+   BitBoard *a, b, *c, e, blocker;
    int t;
 
    a = board.b[side];
