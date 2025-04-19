@@ -647,7 +647,7 @@ directory.
 
 A file called @file{gnuchess.ini} is used to define configuration options.
 The file is applicable provided @option{--uci} is not used.
-The file is looked in three places according to the following precedence:
+The file is looked for in three places according to the following precedence:
 
 @enumerate
 @item
