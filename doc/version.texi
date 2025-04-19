@@ -1,4 +1,4 @@
-@set UPDATED 16 April 2025
+@set UPDATED 19 April 2025
 @set UPDATED-MONTH April 2025
-@set EDITION 6.2.10-pre1
-@set VERSION 6.2.10-pre1
+@set EDITION 6.2.10
+@set VERSION 6.2.10
