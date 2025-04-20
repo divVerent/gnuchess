@@ -8,8 +8,6 @@ TODO of GNU Chess
 
 Items are roughly ordered by priority.
 
-* Consider replacing GNUCHESS_PKGDATADIR by the XDG base directory specification.
-
 * Some common files are stale and should be updated:
 config.guess, config.sub, depcomp, install-sh, missing, ylwrap, etc.
 

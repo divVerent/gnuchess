@@ -647,15 +647,13 @@ directory.
 
 A file called @file{gnuchess.ini} is used to define configuration options.
 The file is applicable provided @option{--uci} is not used.
-The file is looked for in three places according to the following precedence:
+The file is looked for in two places according to the following precedence:
 
 @enumerate
 @item
-The directory where the program was started
+$XDG_CONFIG_HOME/gnuchess/
 @item
-Environment variable@env{GNUCHESS_PKGDATADIR}
-@item
-The package data directory stated at configure time
+$HOME/.config/gnuchess/
 @end enumerate
 
 Sections are composed of @option{variable = value} lines.

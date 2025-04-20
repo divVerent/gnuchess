@@ -2,7 +2,7 @@
 
    GNU Chess protocol adapter
 
-   Copyright (C) 2001-2011 Free Software Foundation, Inc.
+   Copyright (C) 2001-2021 Free Software Foundation, Inc.
 
    This program is free software: you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -25,6 +25,7 @@
 
 #include <cstdlib>
 #include <cstring>
+#include <unistd.h>
 
 #include "option.h"
 #include "util.h"
@@ -95,6 +96,7 @@ static option_t Option[] = {
 // prototypes
 
 static option_t * option_find (const char var[]);
+static bool option_file_find(const char *dir, const char *subdir, const char *filename, char *optionFile);
 
 // functions
 
@@ -107,18 +109,25 @@ void option_init() {
    const char optionName[]="gnuchess.ini";
    char optionFile[MaxFileNameSize+1];
    FILE *of;
-   if ( ( of = fopen(optionName, "r") ) != NULL ) {
-      fclose(of);
-      strcpy(optionFile,"");
-   } else {
-      strcpy(optionFile,compute_pkgdatadir());
-      strcat(optionFile,"/");
+
+   const char *xdg_config_home = getenv("XDG_CONFIG_HOME");
+   const char *xdg_config_subdir = "/gnuchess/";
+   const char *homedir = getenv("HOME");
+   const char *home_subdir = "/.config/gnuchess/";
+   bool file_found = false;
+
+   if (xdg_config_home && strlen(xdg_config_home) > 0) {
+      file_found = option_file_find(xdg_config_home, xdg_config_subdir, optionName, optionFile);
    }
-   strcat(optionFile,optionName);
+   if (!file_found && homedir) {
+      file_found = option_file_find(homedir, home_subdir, optionName, optionFile);
+   }
 
    // options
 
-   option_set("OptionFile",optionFile);
+   if (file_found) {
+      option_set("OptionFile",optionFile);
+   }
 
    option_set("EngineName","GNU Chess");
    option_set("EngineDir",".");
@@ -261,6 +270,24 @@ static option_t * option_find(const char var[]) {
    }
 
    return NULL;
+}
+
+// option_file_find()
+
+bool option_file_find(const char *dir, const char *subdir, const char *filename, char *optionFile) {
+
+   bool file_found = false;
+
+   if ( strlen(dir) + strlen(subdir) + strlen(filename) <= MaxFileNameSize) {
+      sprintf(optionFile, "%s%s%s", dir, subdir, filename);
+      if (access(optionFile, R_OK) == 0) {
+         file_found = true;
+      }
+   } else {
+      my_fatal("option_file_find(): option file name is too long. \"%s%s%s\". Max chars: %d.\n", dir, subdir, filename);
+   }
+
+   return file_found;
 }
 
 }  // namespace adapter

@@ -852,11 +852,10 @@ Play the game of chess.\n\n"), stdout );
  in coordinate algebraic notation.\n\
 \n"), stdout );
       fputs( _("\
- The file 'gnuchess.ini' allows setting config options if --uci is not\n\
- used. See 'info gnuchess' for details. The file is looked for in three\n\
- locations according to this precedence: current directory, the\n\
- directory pointed to by environment variable GNUCHESS_PKGDATADIR,\n\
- or the package data directory stated at configure time.\n\
+ The file 'gnuchess.ini' allows setting configuration options if --uci\n\
+ is not used. See 'info gnuchess' for details about the options. The\n\
+ program will look for 'gnuchess.ini' in $XDG_CONFIG_HOME/gnuchess/\n\
+ and in $HOME/.config/gnuchess/ in that order.\n\
 \n"), stdout );
       fputs( _("\
 Report bugs to <bug-gnu-chess@gnu.org>.\n\
