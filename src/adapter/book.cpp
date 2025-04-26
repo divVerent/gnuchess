@@ -2,7 +2,7 @@
 
    GNU Chess protocol adapter
 
-   Copyright (C) 2001-2014 Free Software Foundation, Inc.
+   Copyright (C) 2001-2025 Free Software Foundation, Inc.
 
    This program is free software: you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -80,31 +80,16 @@ void book_open(const char file_name[], int mode) {
    ASSERT(mode==BookReadOnly || mode==BookReadWrite);
 
    const int MaxModeLength = 4;
-   char full_file_name[MaxFileNameSize+1];
    char file_open_mode[MaxModeLength]="";
-   FILE *bf;
-   if ( ( bf = fopen(file_name, "r") ) != NULL ) {
-      fclose(bf);
-      strcpy(full_file_name,"");
-   } else {
-      strcpy(full_file_name,compute_pkgdatadir());
-      strcat(full_file_name,"/");
-   }
-   strcat(full_file_name,file_name);
 
    if (mode == BookReadWrite) {
       strcpy(file_open_mode,"rb+");
    } else {
       strcpy(file_open_mode,"rb");
    }
-   BookFile = fopen(full_file_name,file_open_mode);
+   BookFile = fopen(file_name,file_open_mode);
    if (BookFile == NULL) {
-      if (fopen(full_file_name,"rb") != NULL) {
-         fclose(bf);
-         my_fatal("book_open(): file \"%s\" is read only\n",full_file_name);
-      } else {
-         my_fatal("book_open(): can't open file \"%s\": %s\n",full_file_name,strerror(errno));
-      }
+      my_fatal("book_open(): can't open file \"%s\": %s\n",file_name,strerror(errno));
    }
 
    if (fseek(BookFile,0,SEEK_END) == -1) {

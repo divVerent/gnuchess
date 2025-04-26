@@ -15,7 +15,7 @@
 This manual is for GNU Chess (version @value{VERSION}, @value{UPDATED}),
 which is a complete chess program, frequently used as a chess engine.
 
-Copyright @copyright{} 2001--2021 Free Software Foundation, Inc.
+Copyright @copyright{} 2001--2025 Free Software Foundation, Inc.
 
 @quotation
 Permission is granted to copy, distribute and/or modify this document
@@ -145,8 +145,8 @@ combination with other programs such as XBoard.
 The actions you performed and the output or behaviour you observed.
 
 @item
-Output files if any.  In order to enable the writing to adapter.log,
-set the following option in config file gnuchess.ini:
+Output files if any.  In order to enable the writing to @file{adapter.log},
+set the following option in the configuration file @file{gnuchess.ini}:
 
 	@option{Log = true}
 
@@ -624,11 +624,10 @@ classic view based on plain ASCII.
 
 @cindex environment variable
 
-If @env{GNUCHESS_PKGDATADIR} is defined, it will be taken as the path for
-the config file and for the book, in case the files are not found in the
-current directory.  If it is not defined, they will be taken from the
-package data directory, in case the files are not found in the current
-directory.
+If @env{XDG_CONFIG_HOME} is defined, the configuration file
+@file{gnuchess.ini} will be looked for in $XDG_CONFIG_HOME/gnuchess/.
+If the variable is not set or it is empty, the configuration file will
+be looked for in $HOME/.config/gnuchess/.
 
 
 @node Configuration file
@@ -645,9 +644,11 @@ directory.
 @node Structure
 @subsection Structure
 
-A file called @file{gnuchess.ini} is used to define configuration options.
-The file is applicable provided @option{--uci} is not used.
-The file is looked for in two places according to the following precedence:
+A file called @file{gnuchess.ini} is used to set configuration options,
+only if the @option{--uci} is not used. If @option{--uci} is used,
+the configuration file is not applicable.
+The file is looked for in the following two places, and the first one which
+is found will be used:
 
 @enumerate
 @item
@@ -669,7 +670,7 @@ document.
 
 @option{[Engine]} section
 
-This section contains engine UCI options.  The PolyGlot-based adapter  does not
+This section contains engine UCI options.  The PolyGlot-based adapter does not
 understand them, but sends the information to the engine at startup
 (converted to UCI form).  You can add any UCI option that makes sense
 to the engine (not just the common options about hash-table size and
@@ -780,16 +781,11 @@ not.
 
 @item BookFile
 @cindex BookFile
-Default: @file{book.bin}
+Default: @file{$pkgdatadir/smallbook.bin}
 
-The name of the (binary) book file.  Note that PolyGlot will look for
-it in the directory it was launched from, not in the engine directory.
-Of course, full path can be used in which case the current directory
-does not matter.
-
-If the file is not found in the current directory, it will be looked for
-in @var{GNUCHESS_PKGDATADIR} if the variable is defined, or in
-the package data directory otherwise.
+The path to the (binary) book file.  $pkgdatadir is set by ./configure,
+default to something like /usr/local/share/gnuchess/ if the user does not
+specify a value.
 
 Note that there is no option to control book usage.  All parameters
 are fixed when compiling a PGN file into a binary book (see below).
@@ -1035,11 +1031,11 @@ specified by the following option in @file{gnuchess.ini}:
 
 @option{LogFile = FILENAME}
 
+Typically, this file is named @file{adapter.log}, but any other
+filename will do the job.
+
 The file is produced if option @option{--uci} is not specified
 and if the following variable is set in @file{gnuchess.ini}:
-
-Typically, this file is named @file{adapter.log}, but any other
-name will do the job.
 
 @option{Log = true}
 

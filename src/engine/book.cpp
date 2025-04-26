@@ -2,7 +2,7 @@
 
    GNU Chess engine
 
-   Copyright (C) 2001-2014 Free Software Foundation, Inc.
+   Copyright (C) 2001-2025 Free Software Foundation, Inc.
 
    This program is free software: you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -63,8 +63,6 @@ static int    find_pos     (uint64 key);
 static void   read_entry   (entry_t * entry, int n);
 static uint64 read_integer (FILE * file, int size);
 
-static char const * compute_pkgdatadir ();
-
 // functions
 
 // book_init()
@@ -81,20 +79,7 @@ void book_open(const char file_name[]) {
 
    ASSERT(file_name!=NULL);
 
-   char full_file_name[MaxFileNameSize+1];
-   FILE *bf;
-
-   if ( ( bf = fopen(file_name, "r") ) != NULL ) {
-      fclose(bf);
-      strcpy(full_file_name,"");
-   } else {
-      strcpy(full_file_name,compute_pkgdatadir());
-      strcat(full_file_name,"/");
-   }
-
-   strcat(full_file_name,file_name);
-
-   BookFile = fopen(full_file_name,"rb");
+   BookFile = fopen(file_name,"rb");
 
    if (BookFile != NULL) {
 
@@ -266,14 +251,6 @@ static uint64 read_integer(FILE * file, int size) {
    }
 
    return n;
-}
-
-// compute_pkgdatadir()
-
-static char const * compute_pkgdatadir ()
-{
-   char const *pkgdatadir = getenv ("GNUCHESS_PKGDATADIR");
-   return pkgdatadir ? pkgdatadir : PKGDATADIR;
 }
 
 }  // namespace engine

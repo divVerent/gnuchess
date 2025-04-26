@@ -2,7 +2,7 @@
 
    GNU Chess protocol adapter
 
-   Copyright (C) 2001-2021 Free Software Foundation, Inc.
+   Copyright (C) 2001-2025 Free Software Foundation, Inc.
 
    This program is free software: you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -29,6 +29,8 @@
 
 #include "option.h"
 #include "util.h"
+
+#include "configmake.h"
 
 namespace adapter {
 
@@ -97,6 +99,7 @@ static option_t Option[] = {
 
 static option_t * option_find (const char var[]);
 static bool option_file_find(const char *dir, const char *subdir, const char *filename, char *optionFile);
+static void get_default_book_file_path(char *bookFilePath, int maxFilePathLength, const char *bookFile);
 
 // functions
 
@@ -145,7 +148,9 @@ void option_init() {
    option_set("MateScore","10000");
 
    option_set("Book","false");
-   option_set("BookFile","book.bin");
+   char bookFilePath[MaxFileNameSize+1];
+   get_default_book_file_path(bookFilePath, MaxFileNameSize, "smallbook.bin");
+   option_set("BookFile",bookFilePath);
 
    option_set("BookRandom","true");
    option_set("BookWorst","false");
@@ -288,6 +293,17 @@ bool option_file_find(const char *dir, const char *subdir, const char *filename,
    }
 
    return file_found;
+}
+
+// get_default_book_file_path
+
+void get_default_book_file_path(char *bookFilePath, int maxFilePathLength, const char *bookFile)
+{
+   if ( strlen(PKGDATADIR) + 1 + strlen(bookFile) <= maxFilePathLength ) {
+      strcpy(bookFilePath, PKGDATADIR);
+      strcat(bookFilePath, "/");
+      strcat(bookFilePath, bookFile);
+   }
 }
 
 }  // namespace adapter

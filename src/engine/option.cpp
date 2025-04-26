@@ -2,7 +2,7 @@
 
    GNU Chess engine
 
-   Copyright (C) 2001-2021 Free Software Foundation, Inc.
+   Copyright (C) 2001-2025 Free Software Foundation, Inc.
 
    This program is free software: you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -24,10 +24,13 @@
 // includes
 
 #include <cstdlib>
+#include <cstring>
 
 #include "option.h"
 #include "protocol.h"
 #include "util.h"
+
+#include "configmake.h"
 
 namespace engine {
 
@@ -50,7 +53,7 @@ static option_t Option[] = {
 
    { "Ponder", true, "false", "check", "", NULL },
 
-   { "OwnBook",  true, "true",           "check",  "", NULL },
+   { "OwnBook",  true, "false",           "check",  "", NULL },
    { "BookFile", true, "smallbook.bin", "string", "", NULL },
 
    { "NullMove Pruning",       true, "Fail High", "combo", "var Always var Fail High var Never", NULL },
@@ -81,6 +84,7 @@ static option_t Option[] = {
 // prototypes
 
 static option_t * option_find (const char var[]);
+static void get_default_book_file_path(char *bookFilePath, int maxFilePathLength, const char *bookFile);
 
 // functions
 
@@ -93,6 +97,12 @@ void option_init() {
    for (opt = &Option[0]; opt->var != NULL; opt++) {
       option_set(opt->var,opt->init);
    }
+
+   // Add default book path
+   const int MaxFileNameSize = 256;
+   char bookFilePath[MaxFileNameSize+1];
+   get_default_book_file_path(bookFilePath, MaxFileNameSize, option_get("BookFile"));
+   option_set("BookFile",bookFilePath);
 }
 
 // option_list()
@@ -198,6 +208,17 @@ static option_t * option_find(const char var[]) {
    }
 
    return NULL;
+}
+
+// get_default_book_file_path
+
+static void get_default_book_file_path(char *bookFilePath, int maxFilePathLength, const char *bookFile)
+{
+   if ( strlen(PKGDATADIR) + 1 + strlen(bookFile) <= maxFilePathLength ) {
+      strcpy(bookFilePath, PKGDATADIR);
+      strcat(bookFilePath, "/");
+      strcat(bookFilePath, bookFile);
+   }
 }
 
 }  // namespace engine

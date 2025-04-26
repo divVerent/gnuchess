@@ -2,7 +2,7 @@
 
    GNU Chess protocol adapter
 
-   Copyright (C) 2001-2011 Free Software Foundation, Inc.
+   Copyright (C) 2001-2025 Free Software Foundation, Inc.
 
    This program is free software: you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -35,7 +35,6 @@
 #include "main.h"
 #include "posix.h"
 #include "util.h"
-#include "configmake.h"
 
 namespace adapter {
 
@@ -410,15 +409,6 @@ double my_timer_cpu_usage(const my_timer_t * timer) {
    if (usage >= 1.0) usage = 1.0;
 
    return usage;
-}
-
-// compute_pkgdatadir()
-
-char const * compute_pkgdatadir ()
-{
-
-   char const *pkgdatadir = getenv ("GNUCHESS_PKGDATADIR");
-   return pkgdatadir ? pkgdatadir : PKGDATADIR;
 }
 
 }  // namespace adapter
