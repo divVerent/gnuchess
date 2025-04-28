@@ -33,9 +33,8 @@ logodir=$(pluginsdir)/logos
 logo_DATA = misc/gnuchess.png
 
 # Additional files to distribute.
-EXTRA_DIST = config.rpath TODO src/gnuchess.ini src/smallbook.bin src/gnuchessx src/gnuchessu doc/quotes.rb lib/gettext.h misc/gnuchess.eng misc/gnuchess.png
+EXTRA_DIST = config.rpath TODO src/smallbook.bin src/gnuchessx src/gnuchessu doc/quotes.rb lib/gettext.h misc/gnuchess.eng misc/gnuchess.png
 
 DISTCLEANFILES = *~ src/GCint.h
-pkgdatadir =$(datadir)/gnuchess
 
 AM_CPPFLAGS = -I$(top_srcdir)/lib -I$(top_builddir)/lib

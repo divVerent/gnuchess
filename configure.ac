@@ -27,6 +27,9 @@ AC_PROG_LN_S
 AC_STRUCT_TM
 AM_PROG_LEX
 
+pkgdatadir=${datadir}/${PACKAGE}
+AC_DEFINE_DIR([PKGDATADIR], [pkgdatadir], [Where data are placed to.])
+
 dnl --with and --enable things
 AC_ARG_WITH(readline, 
 	AC_HELP_STRING([--with-readline],
@@ -97,5 +100,5 @@ AC_ARG_WITH([pluginsdir],
 
 AC_SUBST(PLUGINSDIR)
 
-AC_CONFIG_FILES(Makefile src/Makefile src/frontend/Makefile src/adapter/Makefile src/engine/Makefile doc/Makefile po/Makefile.in man/Makefile)
+AC_CONFIG_FILES(Makefile src/Makefile src/frontend/Makefile src/adapter/Makefile src/engine/Makefile doc/Makefile po/Makefile.in man/Makefile doc/gnuchess.ini)
 AC_OUTPUT
