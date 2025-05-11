@@ -2,7 +2,7 @@
 
    GNU Chess engine
 
-   Copyright (C) 2001-2011 Free Software Foundation, Inc.
+   Copyright (C) 2001-2022 Free Software Foundation, Inc.
 
    This program is free software: you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -41,6 +41,10 @@ namespace engine {
 
 extern FILE *pipefd_a2e_0_stream;
 extern FILE *pipefd_e2a_1_stream;
+
+extern void set_engine_to_quit();
+
+void set_engine_to_quit();
 
 // functions
 
@@ -125,7 +129,7 @@ void my_fatal(const char format[], ...) {
    vfprintf(stderr,format,ap);
    va_end(ap);
 
-   exit(EXIT_FAILURE);
+   set_engine_to_quit();
    // abort();
 }
 

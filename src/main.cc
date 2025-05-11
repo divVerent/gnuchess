@@ -495,25 +495,28 @@ There is NO WARRANTY, to the extent permitted by law.\n"),
 
   //usleep(3000); /* So that Polyglot's and Fruit's banner has enough time to be displayed */
   //strcpy( userinputbuf, "protover 2\n" );
-  while (!(flags & QUIT)) {
+    while (!(flags & QUIT)) {
     if ( flags & UCI ) {
       /* In UCI mode, just forward input/output to/from engine - no adapter */
       ForwardUserInputToEngine();
       ForwardEngineOutputToUser();
     } else { /* Classical GNU Chess mode */
       /* Check if there is a new command from the user */
-      NextUserCmd();
+            NextUserCmd();
       /* Show thinking message */
       if ((flags & THINK) && !(flags & MANUAL) && !(flags & ENDED)) {
         if (!(flags & XBOARD)) printf(_("Thinking...\n"));
         CLEAR (flags, THINK);
       }
       /* Check if there is a new command from the engine */
-      NextEngineCmd();
+            NextEngineCmd();
       /* Check if user input ready for reading. If so, store it in a buffer. */
-      ReadFromUser();
+            ReadFromUser();
       /* Check if engine input ready for reading. If so, store it in a buffer. */
-      ReadFromEngine();
+            ReadFromEngine();
+      /* Check if engine thread is flagged to quit */
+      if (IsEngineToQuit())
+        break;
     }
     /* Avoid using 100% CPU */
     usleep(100);

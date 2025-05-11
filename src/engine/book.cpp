@@ -89,6 +89,8 @@ void book_open(const char file_name[]) {
 
       BookSize = ftell(BookFile) / 16;
       if (BookSize == -1) my_fatal("book_open(): ftell(): %s\n",strerror(errno));
+   } else {
+      my_fatal("book_open(): can't open file \"%s\": %s\n",file_name,strerror(errno));
    }
 }
 

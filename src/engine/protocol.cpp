@@ -2,7 +2,7 @@
 
    GNU Chess engine
 
-   Copyright (C) 2001-2015 Free Software Foundation, Inc.
+   Copyright (C) 2001-2025 Free Software Foundation, Inc.
 
    This program is free software: you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -69,6 +69,9 @@ extern bool UseTrans;
 extern FILE *pipefd_a2e_0_stream;
 extern FILE *pipefd_e2a_1_stream;
 
+pthread_mutex_t engine_quit_mutex;
+bool engine_quit = false;
+
 // prototypes
 
 static void init              ();
@@ -82,6 +85,9 @@ static void send_best_move    ();
 
 static bool string_equal      (const char s1[], const char s2[]);
 static bool string_start_with (const char s1[], const char s2[]);
+
+void set_engine_to_quit();
+
 
 // functions
 
@@ -208,8 +214,7 @@ static void loop_step() {
       ASSERT(!Searching);
       ASSERT(!Delay);
 
-      //exit(EXIT_SUCCESS);
-      pthread_exit(NULL);
+      set_engine_to_quit();
 
    } else if (string_start_with(string,"setoption ")) {
 
@@ -613,7 +618,7 @@ void get(char string[], int size) {
    ASSERT(size>=65536);
 
    if (!my_file_read_line(pipefd_a2e_0_stream,string,size)) { // EOF
-      exit(EXIT_SUCCESS);
+      set_engine_to_quit();
    }
 }
 
@@ -651,6 +656,13 @@ static bool string_start_with(const char s1[], const char s2[]) {
    ASSERT(s2!=NULL);
 
    return strstr(s1,s2) == s1;
+}
+
+void set_engine_to_quit()
+{
+  pthread_mutex_lock( &engine_quit_mutex );
+  engine_quit = true;
+  pthread_mutex_unlock( &engine_quit_mutex );
 }
 
 }  // namespace engine

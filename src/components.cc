@@ -1,6 +1,6 @@
 /* GNU Chess 6 - components.cc - Pipes shared across modules
 
-   Copyright (c) 2001-2017 Free Software Foundation, Inc.
+   Copyright (c) 2001-2025 Free Software Foundation, Inc.
 
    GNU Chess is based on the two research programs
    Cobalt by Chua Kong-Sian and Gazebo by Stuart Cracraft.
@@ -45,6 +45,8 @@ namespace adapter {
 /* Main loop of engine */
 namespace engine {
   int main_engine(int argc,char *argv[]);
+  extern pthread_mutex_t engine_quit_mutex;
+  extern bool engine_quit;
 }
 
 /* Input thread */
@@ -150,6 +152,8 @@ void InitEngine()
     exit( 1 );
   }
 
+  pthread_mutex_init(&engine::engine_quit_mutex, NULL);
+
   /* Start engine thread */
   pthread_create(&engine_thread, NULL, engine_func, NULL);
 }
@@ -158,13 +162,10 @@ int SendToEngine( char msg[] );
 
 void TerminateAdapterEngine()
 {
-  if ( ! (flags & UCI ) ) {
-    char data[9];
-    strcpy( data, "quit" );
-    SendToEngine( data );
-  }
+  pthread_cancel( engine_thread );
   pthread_join( engine_thread, NULL );
   if ( ! (flags & UCI ) ) {
+    pthread_cancel( adapter_thread );
     pthread_join( adapter_thread, NULL );
   }
 }
@@ -176,3 +177,13 @@ void TerminateInput()
     pthread_join( input_thread, NULL );
   }
 }
+
+bool IsEngineToQuit()
+{
+  bool quit;
+  pthread_mutex_lock( &engine::engine_quit_mutex );
+  quit = engine::engine_quit;
+  pthread_mutex_unlock( &engine::engine_quit_mutex );
+  return quit;
+}
+

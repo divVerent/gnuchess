@@ -90,14 +90,15 @@ void book_open(const char file_name[], int mode) {
    BookFile = fopen(file_name,file_open_mode);
    if (BookFile == NULL) {
       my_fatal("book_open(): can't open file \"%s\": %s\n",file_name,strerror(errno));
-   }
+   } else {
 
-   if (fseek(BookFile,0,SEEK_END) == -1) {
-      my_fatal("book_open(): fseek(): %s\n",strerror(errno));
-   }
+      if (fseek(BookFile,0,SEEK_END) == -1) {
+         my_fatal("book_open(): fseek(): %s\n",strerror(errno));
+      } else {
 
-   BookSize = ftell(BookFile) / 16;
-   if (BookSize == 0) my_fatal("book_open(): empty file\n");
+         BookSize = ftell(BookFile) / 16;
+         if (BookSize == 0) my_fatal("book_open(): empty file\n");
+   }}
 }
 
 // book_close()
