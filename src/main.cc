@@ -424,7 +424,7 @@ There is NO WARRANTY, to the extent permitted by law.\n"),
 
   /* Compile book if the addbook option was specified. Ignore any other options. */
   if ( strlen( opt_addbook ) > 0 ) {
-    char data[9+MAXSTR+1+4]="";
+    char data[9+MAXSTR+1+4+1]="";
     sprintf( data, "book add %s\nquit", opt_addbook );
     SendToEngine( data );
   }
