@@ -719,6 +719,7 @@ static void xboard_step() {
       } else if ( strcmp( token, "off" ) == 0 ) {
 
          option_set("Book","false");
+         uci_send_option(Uci,"OwnBook","%s","false");
 
       } else if ( strcmp( token, "best" ) == 0 ) {
 
