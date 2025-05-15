@@ -30,7 +30,7 @@
 #include "option.h"
 #include "util.h"
 
-#include "configmake.h"
+#include "config.h"
 
 namespace adapter {
 

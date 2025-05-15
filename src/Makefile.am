@@ -1,7 +1,7 @@
 # Process this file with automake to produce Makefile.in 
 # Makefile for gnuchess/src.
 #
-# Copyright (C) 2001-2011 Free Software Foundation, Inc.
+# Copyright (C) 2001-2025 Free Software Foundation, Inc.
 #
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -35,13 +35,3 @@ DISTCLEANFILES = *~
 
 SUBDIRS = frontend adapter engine
 gnuchess_LDADD = $(LIBINTL) frontend/libfrontend.a adapter/libadapter.a engine/libengine.a
-
-configmake.h: Makefile
-	rm -f $@-t $@
-	{ echo '/* DO NOT EDIT! GENERATED AUTOMATICALLY! */'; \
-	  echo '#define PKGDATADIR "$(pkgdatadir)"'; \
-	} | sed '/""/d' > $@-t
-	mv $@-t $@
-BUILT_SOURCES = configmake.h
-CLEANFILES = configmake.h configmake.h-t
-

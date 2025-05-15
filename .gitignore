@@ -32,12 +32,12 @@ Makefile.in
 /doc/mdate-sh
 /doc/stamp-vti
 /doc/texinfo.tex
+/doc/gnuchess.ini
 /man/gnuchess.1
 
 # src
 /src/gnuchess
 /src/config.h
-/src/configmake.h
 /src/GCint.h
 /src/stamp-h1
 

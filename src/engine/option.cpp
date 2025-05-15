@@ -30,7 +30,7 @@
 #include "protocol.h"
 #include "util.h"
 
-#include "configmake.h"
+#include "config.h"
 
 namespace engine {
 

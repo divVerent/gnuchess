@@ -33,7 +33,8 @@
 #include "move.h"
 #include "move_gen.h"
 #include "util.h"
-#include "configmake.h"
+
+#include "config.h"
 
 namespace engine {
 
