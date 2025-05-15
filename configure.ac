@@ -27,6 +27,11 @@ AC_PROG_LN_S
 AC_STRUCT_TM
 AM_PROG_LEX
 
+dnl Check for a C++ compiler.
+if test "$CXX" = "no"; then
+    AC_MSG_ERROR([C++ compiler not found but is required])
+fi
+
 pkgdatadir=${datadir}/${PACKAGE}
 AC_DEFINE_DIR([PKGDATADIR], [pkgdatadir], [Where data are placed to.])
 
