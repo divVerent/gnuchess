@@ -257,7 +257,8 @@ Enable manual mode.
 @itemx -u
 @opindex --uci
 @opindex -u
-Enable UCI protocol (i.e. externally behave as an UCI engine).
+Enable UCI protocol (i.e. externally behave as an UCI engine). It is not
+compatible with other options.
 
 @item --memory SIZE
 @itemx -M SIZE

@@ -2,7 +2,7 @@
 
    GNU Chess frontend
 
-   Copyright (C) 2001-2021 Free Software Foundation, Inc.
+   Copyright (C) 2001-2025 Free Software Foundation, Inc.
 
    GNU Chess is based on the two research programs
    Cobalt by Chua Kong-Sian and Gazebo by Stuart Cracraft.
@@ -835,7 +835,7 @@ Play the game of chess.\n\n"), stdout );
  -m, --manual                      enable manual mode\n"), stdout );
       fputs( _("\
  -u, --uci                         enable UCI protocol (i.e. externally behave as\n\
-                                   an UCI engine)\n"), stdout );
+                                   an UCI engine), incompatible with other options\n"), stdout );
       fputs( _("\
  -M SIZE, --memory=SIZE            specify memory usage in MB for hashtable\n"), stdout );
       fputs( _("\
