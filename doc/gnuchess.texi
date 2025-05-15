@@ -200,7 +200,7 @@ it is ready to start a chess game.
 @opindex --help
 @opindex -h
 @cindex help
-Print an informative help message on standard output and exit
+Print an informative help message on the standard output and exit
 successfully.
 
 @item --version
@@ -208,7 +208,7 @@ successfully.
 @opindex --version
 @opindex -v
 @cindex version
-Print the version number and licensing information of Hello on
+Print the version number and licensing information on the
 standard output and then exit successfully.
 
 @item --quiet
@@ -257,19 +257,19 @@ Enable manual mode.
 @itemx -u
 @opindex --uci
 @opindex -u
-Enable UCI protocol (externally behave as UCI engine).
+Enable UCI protocol (i.e. externally behave as an UCI engine).
 
-@item --memory size
-@itemx -M size
+@item --memory SIZE
+@itemx -M SIZE
 @opindex --memory
 @opindex -M
 Specify memory usage in MB for hashtable.
 
-@item --addbook filename
-@itemx -a filename
+@item --addbook FILENAME
+@itemx -a fFILENAME
 @opindex --addbook
 @opindex -a
-Compile book.bin from pgn book 'filename' and quits.
+Compile book.bin from pgn book FILENAME and quits.
 
 @item --graphic
 @itemx -g
@@ -326,7 +326,7 @@ Produce blurb on command line options.
 @cindex book
 Handle the book.  Requires a subcommand:
 
-add - compiles book.bin from book.pgn
+add FILENAME - compiles book.bin from pgn book FILENAME
 
 on - enables use of book
 
@@ -1113,7 +1113,7 @@ How to run XBoard with GNU Chess playing against itself:
 @section UCI chess engine
 
 @cindex uci
-For GNU Chess to  behave as a pure UCI chess engine, execute
+For GNU Chess to behave as a pure UCI chess engine, execute
 the following command:
 
 @example

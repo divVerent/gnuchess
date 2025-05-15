@@ -816,31 +816,32 @@ Usage: %s [OPTION]...\n\n"), progname );
 Play the game of chess.\n\n"), stdout );
       fputs( _("Options:\n"), stdout );
       fputs( _("\
- -h, --help         display this help and exit\n"), stdout );
+ -h, --help                        display this help and exit\n"), stdout );
       fputs( _("\
- -v, --version      display version information and exit\n"), stdout );
+ -v, --version                     display version information and exit\n"), stdout );
       fputs( _("\
- -q, --quiet        make the program silent on startup\n"), stdout );
+ -q, --quiet                       make the program silent on startup\n"), stdout );
       fputs( _("\
-     --silent       same as -q\n"), stdout );
+     --silent                      same as -q\n"), stdout );
       fputs( _("\
 \n"), stdout );
       fputs( _("\
- -x, --xboard       start in engine mode\n"), stdout );
+ -x, --xboard                      start in engine mode\n"), stdout );
       fputs( _("\
- -p, --post         start up showing thinking\n"), stdout );
+ -p, --post                        start up showing thinking\n"), stdout );
       fputs( _("\
- -e, --easy         disable thinking in opponents time\n"), stdout );
+ -e, --easy                        disable thinking in opponents time\n"), stdout );
       fputs( _("\
- -m, --manual       enable manual mode\n"), stdout );
+ -m, --manual                      enable manual mode\n"), stdout );
       fputs( _("\
- -u, --uci          enable UCI protocol (externally behave as UCI engine)\n"), stdout );
+ -u, --uci                         enable UCI protocol (i.e. externally behave as\n\
+                                   an UCI engine)\n"), stdout );
       fputs( _("\
- -M size, --memory=size   specify memory usage in MB for hashtable\n"), stdout );
+ -M SIZE, --memory=SIZE            specify memory usage in MB for hashtable\n"), stdout );
       fputs( _("\
- -a filename, --addbook=filename   compile book.bin from pgn book 'filename'\n"), stdout );
+ -a FILENAME, --addbook=FILENAME   compile book.bin from pgn book FILENAME\n"), stdout );
       fputs( _("\
- -g, --graphic      enable graphic mode\n"), stdout );
+ -g, --graphic                     enable graphic mode\n"), stdout );
       fputs( _("\
 \n"), stdout );
       fputs( _("\
@@ -852,10 +853,11 @@ Play the game of chess.\n\n"), stdout );
  in coordinate algebraic notation.\n\
 \n"), stdout );
       fputs( _("\
- The file 'gnuchess.ini' allows setting configuration options if --uci\n\
- is not used. See 'info gnuchess' for details about the options. The\n\
- program will look for 'gnuchess.ini' in $XDG_CONFIG_HOME/gnuchess/\n\
- and in $HOME/.config/gnuchess/ in that order.\n\
+ The file 'gnuchess.ini' allows setting configuration options, but it is\n\
+ ignored if the --uci option is used. See 'info gnuchess' for details\n\
+ about the options. The program will look for 'gnuchess.ini' in\n\
+ $XDG_CONFIG_HOME/gnuchess/ and $HOME/.config/gnuchess/ in that order,\n\
+ and it will use the first one it finds, if any.\n\
 \n"), stdout );
       fputs( _("\
 Report bugs to <bug-gnu-chess@gnu.org>.\n\
@@ -1047,7 +1049,7 @@ static const char * const helpstr[] = {
    "help",
    gettext_noop(" Produces a help blurb corresponding to this list of commands."),
    "book",
-   gettext_noop(" add - compiles book.bin from a pgn book file"),
+   gettext_noop(" add FILENAME - compiles book.bin from pgn book FILENAME"),
    gettext_noop(" on - enables use of book (default)"),
    gettext_noop(" off - disables use of book"),
    gettext_noop(" worst - plays worst move from book"),
