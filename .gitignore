@@ -22,6 +22,9 @@ Makefile.in
 /config.status
 /config.sub
 /configure
+/depcomp
+/install-sh
+/missing
 /ylwrap
 
 # m4 files
