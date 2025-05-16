@@ -1,15 +1,12 @@
 TODO of GNU Chess
 
-  Copyright (C) 2001-2021 Free Software Foundation, Inc.
+  Copyright (C) 2001-2025 Free Software Foundation, Inc.
 
   Copying and distribution of this file, with or without modification,
   are permitted in any medium without royalty provided the copyright
   notice and this notice are preserved.
 
 Items are roughly ordered by priority.
-
-* Some common files are stale and should be updated:
-config.guess, config.sub, depcomp, install-sh, missing, ylwrap, etc.
 
 * Add instructions to run the program from popular frontends and
 test programs: Knights, Gnome Chess, CuteChess, etc.
