@@ -6,6 +6,14 @@ NEWS of GNU Chess
   are permitted in any medium without royalty provided the copyright
   notice and this notice are preserved.
 
+Version 6.3.0 (May 2025)
+
+ - Look for gnuchess.ini in XDG_CONFIG_HOME or ~/.config/.
+ - Dynamically configure gnuchess.ini from gnuchess.ini.in.
+ - Disable engine book on 'book off'.
+ - Improve style of some help messages.
+ - More graceful program termination if book does not exist.
+
 Version 6.2.11 (April 2025)
 Version 6.2.10 (April 2025)
 
