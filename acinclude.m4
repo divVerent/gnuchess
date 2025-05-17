@@ -43,7 +43,7 @@ AC_CACHE_VAL([ac_cv_header_stdint_t],[
 old_CXXFLAGS="$CXXFLAGS" ; CXXFLAGS=""
 old_CPPFLAGS="$CPPFLAGS" ; CPPFLAGS=""
 old_CFLAGS="$CFLAGS"     ; CFLAGS=""
-AC_TRY_COMPILE([#include <stdint.h>],[int_least32_t v = 0;],
+AC_COMPILE_IFELSE([AC_LANG_PROGRAM([[[#include <stdint.h>]]],[[[int_least32_t v = 0;]]])],
 [ac_cv_stdint_result="(assuming C99 compatible system)"
  ac_cv_header_stdint_t="stdint.h"; ],
 [ac_cv_header_stdint_t=""])
@@ -580,10 +580,10 @@ changequote([, ])dnl
 AC_MSG_CHECKING(size of $1)
 AC_CACHE_VAL(AC_CV_NAME,
 [for ac_size in 4 8 1 2 16 $2 ; do # List sizes in rough order of prevalence.
-  AC_TRY_COMPILE([#include "confdefs.h"
+  AC_COMPILE_IFELSE([AC_LANG_PROGRAM([[[#include "confdefs.h"
 #include <sys/types.h>
 $2
-], [switch (0) case 0: case (sizeof ($1) == $ac_size):;], AC_CV_NAME=$ac_size)
+]]], [[[switch (0) case 0: case (sizeof ($1) == $ac_size):;]]])], AC_CV_NAME=$ac_size)
   if test x$AC_CV_NAME != x ; then break; fi
 done
 ])
@@ -601,7 +601,7 @@ dnl
 AC_DEFUN([ACX_PTHREAD], [
 AC_REQUIRE([AC_CANONICAL_HOST])
 AC_LANG_SAVE
-AC_LANG_C
+AC_LANG([C])
 acx_pthread_ok=no
 
 # We used to check for pthread.h first, but this fails if pthread.h
@@ -722,10 +722,10 @@ for flag in $acx_pthread_flags; do
         # pthread_cleanup_push because it is one of the few pthread
         # functions on Solaris that doesn't have a non-functional libc stub.
         # We try pthread_create on general principles.
-        AC_TRY_LINK([#include <pthread.h>],
-                    [pthread_t th; pthread_join(th, 0);
+        AC_LINK_IFELSE([AC_LANG_PROGRAM([[[#include <pthread.h>]]],
+                    [[[pthread_t th; pthread_join(th, 0);
                      pthread_attr_init(0); pthread_cleanup_push(0, 0);
-                     pthread_create(0,0,0,0); pthread_cleanup_pop(0); ],
+                     pthread_create(0,0,0,0); pthread_cleanup_pop(0); ]]])],
                     [acx_pthread_ok=yes])
 
         LIBS="$save_LIBS"
@@ -755,12 +755,12 @@ if test "x$acx_pthread_ok" = xyes; then
         # Detect AIX lossage: threads are created detached by default
         # and the JOINABLE attribute has a nonstandard name (UNDETACHED).
         AC_MSG_CHECKING([for joinable pthread attribute])
-        AC_TRY_LINK([#include <pthread.h>],
-                    [int attr=PTHREAD_CREATE_JOINABLE;],
+        AC_LINK_IFELSE([AC_LANG_PROGRAM([[[#include <pthread.h>]]],
+                    [[[int attr=PTHREAD_CREATE_JOINABLE;]]])],
                     ok=PTHREAD_CREATE_JOINABLE, ok=unknown)
         if test x"$ok" = xunknown; then
-                AC_TRY_LINK([#include <pthread.h>],
-                            [int attr=PTHREAD_CREATE_UNDETACHED;],
+                AC_LINK_IFELSE([AC_LANG_PROGRAM([[[#include <pthread.h>]]],
+                            [[[int attr=PTHREAD_CREATE_UNDETACHED;]]])],
                             ok=PTHREAD_CREATE_UNDETACHED, ok=unknown)
         fi
         if test x"$ok" != xPTHREAD_CREATE_JOINABLE; then

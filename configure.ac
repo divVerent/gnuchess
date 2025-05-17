@@ -37,7 +37,7 @@ AC_DEFINE_DIR([PKGDATADIR], [pkgdatadir], [Where data are placed to.])
 
 dnl --with and --enable things
 AC_ARG_WITH(readline, 
-	AC_HELP_STRING([--with-readline],
+	AS_HELP_STRING([--with-readline],
 	[use readline library if available (default is YES)]),
 	ac_cv_use_readline=$withval,
 	ac_cv_use_readline=yes)
@@ -48,9 +48,6 @@ if test x"$ac_cv_use_readline" = "xyes"; then
 	AC_CHECK_LIB(readline, readline)
 	AC_CHECK_HEADERS(readline/readline.h readline/history.h)
 fi
-
-dnl Checks for header files.
-AC_HEADER_STDC
 
 dnl Either we should make these checks fail with an
 dnl AC_MSG_ERROR or we should treat missing headers
@@ -65,11 +62,9 @@ AC_FUNC_REALLOC
 AC_HEADER_STDBOOL
 AC_C_INLINE
 AC_TYPE_SIZE_T
-AC_HEADER_TIME
 AX_CREATE_STDINT_H(src/GCint.h)
 
 dnl Checks for library functions.
-AC_TYPE_SIGNAL
 AC_FUNC_MALLOC
 AC_FUNC_MEMCMP
 

@@ -38,7 +38,6 @@
 #include <unistd.h>
 #include <errno.h>
 #include <assert.h>
-#include <signal.h>
 
 #include "common.h"
 #include "components.h"
@@ -105,7 +104,7 @@ void getline_standard(char *p)
  * Sends a char string message from the input to the frontend.
  * The message must be a command or a move.
  */
-int SendToFrontend( char msg[] )
+int SendToFrontend( const char msg[] )
 {
     int outError=0;
     int msg_size = strlen( msg );
@@ -154,7 +153,8 @@ void *input_func(void *arg __attribute__((unused)) )
     get_line(prompt);
     SendToFrontend( userinputstr );
 #ifdef HAVE_LIBREADLINE
-    SendToFrontend( "\n" );
+    const char new_line[]="\n";
+    SendToFrontend( new_line );
 #endif
     pthread_mutex_lock( &input_mutex );
     wait_for_input = 0;
