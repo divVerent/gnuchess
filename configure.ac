@@ -89,7 +89,7 @@ else
 fi
 
 # Support from GNU gettext.
-AM_GNU_GETTEXT_VERSION([0.18.3])
+AM_GNU_GETTEXT_VERSION([0.21])
 AM_GNU_GETTEXT([external])
 
 AC_ARG_WITH([pluginsdir],
