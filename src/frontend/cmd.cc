@@ -812,56 +812,59 @@ void cmd_usage(void)
       printf ( "\n" );
       printf ( _("\
 Usage: %s [OPTION]...\n\n"), progname );
-      fputs( _("\
-Play the game of chess.\n\n"), stdout );
-      fputs( _("Options:\n"), stdout );
-      fputs( _("\
- -h, --help                        display this help and exit\n"), stdout );
-      fputs( _("\
- -v, --version                     display version information and exit\n"), stdout );
-      fputs( _("\
- -q, --quiet                       make the program silent on startup\n"), stdout );
-      fputs( _("\
-     --silent                      same as -q\n"), stdout );
-      fputs( _("\
-\n"), stdout );
-      fputs( _("\
- -x, --xboard                      start in engine mode\n"), stdout );
-      fputs( _("\
- -p, --post                        start up showing thinking\n"), stdout );
-      fputs( _("\
- -e, --easy                        disable thinking in opponents time\n"), stdout );
-      fputs( _("\
- -m, --manual                      enable manual mode\n"), stdout );
-      fputs( _("\
- -u, --uci                         enable UCI protocol (i.e. externally behave as\n\
-                                   an UCI engine), incompatible with other options\n"), stdout );
-      fputs( _("\
- -M SIZE, --memory=SIZE            specify memory usage in MB for hashtable\n"), stdout );
-      fputs( _("\
- -a FILENAME, --addbook=FILENAME   compile book.bin from pgn book FILENAME\n"), stdout );
-      fputs( _("\
- -g, --graphic                     enable graphic mode\n"), stdout );
-      fputs( _("\
-\n"), stdout );
-      fputs( _("\
- Options xboard and post are accepted without leading dashes\n\
- for backward compatibility.\n\
-\n"), stdout );
-      fputs( _("\
- Moves are accepted either in standard algebraic notation (SAN) or\n\
- in coordinate algebraic notation.\n\
-\n"), stdout );
-      fputs( _("\
- The file 'gnuchess.ini' allows setting configuration options, but it is\n\
- ignored if the --uci option is used. See 'info gnuchess' for details\n\
- about the options. The program will look for 'gnuchess.ini' in\n\
- $XDG_CONFIG_HOME/gnuchess/ and $HOME/.config/gnuchess/ in that order,\n\
- and it will use the first one it finds, if any.\n\
-\n"), stdout );
-      fputs( _("\
-Report bugs to <bug-gnu-chess@gnu.org>.\n\
-\n"), stdout );
+      printf( _("\
+Play the game of chess.\n\n") );
+      printf( _("Options:\n") );
+      printf( _("\
+ -h, --help                        display this help and exit\n") );
+      printf( _("\
+ -v, --version                     display version information and exit\n") );
+      printf( _("\
+ -q, --quiet                       make the program silent on startup\n") );
+      printf( _("\
+     --silent                      same as -q\n") );
+      printf( _("\
+\n") );
+      printf( _("\
+ -x, --xboard                      start in engine mode\n") );
+      printf( _("\
+ -p, --post                        start up showing thinking\n") );
+      printf( _("\
+ -e, --easy                        disable thinking in opponents time\n") );
+      printf( _("\
+ -m, --manual                      enable manual mode\n") );
+      printf( _("\
+ -u, --uci                         enable UCI protocol (that is: behave like an\n\
+                                   UCI engine); incompatible with other options\n") );
+      printf( _("\
+ -M SIZE, --memory=SIZE            specify memory usage in MB for hashtable\n") );
+      printf( _("\
+ -a FILENAME, --addbook=FILENAME   compile book.bin from pgn book FILENAME\n") );
+      printf( _("\
+ -g, --graphic                     enable graphic mode\n") );
+      printf( _("\
+\n") );
+      printf( _("\
+Options xboard and post are accepted without leading dashes\n\
+for backward compatibility.\n\
+\n") );
+      printf( _("\
+Moves are accepted either in standard algebraic notation (SAN) or\n\
+in coordinate algebraic notation.\n\
+\n") );
+      printf( _("\
+The file 'gnuchess.ini' allows setting configuration options, but it is\n\
+ignored if the --uci option is used. See 'info gnuchess' for details\n\
+about the options. The program will look for 'gnuchess.ini' in\n\
+$XDG_CONFIG_HOME/gnuchess/ and $HOME/.config/gnuchess/ in that order,\n\
+and it will use the first one it finds, if any.\n\
+\n") );
+      printf( _("\
+Report bugs to: <bug-gnu-chess@gnu.org>.\n") );
+      printf( _("\
+%s home page: <https://www.gnu.org/software/chess/>\n"), PACKAGE_NAME );
+      printf( _("\
+General help using GNU software: <https://www.gnu.org/gethelp/>\n\n") );
      }
 
 
@@ -914,10 +917,13 @@ void cmd_usermove(void)
 
 void cmd_version(void)
 {
-   if (!(flags & XBOARD))
-     printf ("%s %s\n", PROGRAM, VERSION);
-   else
-     printf ("Chess\n");
+    printf ("%s\n", PACKAGE_STRING);
+    printf ( _("\
+Copyright (C) %s Free Software Foundation, Inc.\n\
+License GPLv3+: GNU GPL version 3 or later <https://gnu.org/licenses/gpl.html>\n\
+This is free software: you are free to change and redistribute it.\n\
+There is NO WARRANTY, to the extent permitted by law.\n"),
+             "2025" );
 }
 
 void cmd_coords(void) {

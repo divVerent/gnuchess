@@ -10,7 +10,7 @@ dnl This program is distributed in the hope that it will be useful, but
 dnl WITHOUT ANY WARRANTY, to the extent permitted by law; without even the
 dnl implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
 
-AC_INIT([GNU Chess], [6.3.0-pre1], [bug-gnu-chess@gnu.org], [gnuchess])
+AC_INIT([GNU Chess], [6.3.0-pre2], [bug-gnu-chess@gnu.org], [gnuchess])
 AC_PREREQ(2.69)
 AC_CONFIG_HEADERS(src/config.h)
 AC_CONFIG_SRCDIR([src/main.cc])
@@ -34,6 +34,7 @@ fi
 
 pkgdatadir=${datadir}/${PACKAGE}
 AC_DEFINE_DIR([PKGDATADIR], [pkgdatadir], [Where data are placed to.])
+AC_SUBST(PACKAGE_NAME)
 
 dnl --with and --enable things
 AC_ARG_WITH(readline, 
@@ -100,5 +101,5 @@ AC_ARG_WITH([pluginsdir],
 
 AC_SUBST(PLUGINSDIR)
 
-AC_CONFIG_FILES(Makefile src/Makefile src/frontend/Makefile src/adapter/Makefile src/engine/Makefile doc/Makefile po/Makefile.in man/Makefile doc/gnuchess.ini)
+AC_CONFIG_FILES(Makefile src/Makefile src/frontend/Makefile src/adapter/Makefile src/engine/Makefile doc/Makefile po/Makefile.in man/Makefile doc/gnuchess.ini doc/pkg.texi)
 AC_OUTPUT

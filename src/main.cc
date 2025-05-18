@@ -23,8 +23,6 @@
      cracraft@ai.mit.edu, cracraft@stanfordalumni.org, cracraft@earthlink.net
 */
 
-#include "components.h"
-
 #include <time.h>
 #include <string.h>
 #include <stdio.h>
@@ -35,8 +33,11 @@
 #include <locale.h>
 #include <signal.h>
 
-#include "frontend/common.h"
 #include "gettext.h"
+
+#include "config.h"
+#include "components.h"
+#include "frontend/common.h"
 
 #define _(str) gettext (str)
 
@@ -378,21 +379,18 @@ int main (int argc, char *argv[])
   }
   if (opt_manual ==1)
     SET (flags, MANUAL);
-  cmd_version();
 
   /* If the version option was specified we can exit here */
-  if (opt_version == 1)
+  if (opt_version == 1) {
+    cmd_version();
 	return(0);
-
-  /* Startup output */
-  if ( !( flags & XBOARD ) && ( !opt_quiet ) && ( !opt_uci) ) {
-    printf ( _("\
-Copyright (C) %s Free Software Foundation, Inc.\n\
-License GPLv3+: GNU GPL version 3 or later <http://gnu.org/licenses/gpl.html>\n\
-This is free software: you are free to change and redistribute it.\n\
-There is NO WARRANTY, to the extent permitted by law.\n"),
-             "2025" );
   }
+
+  if ( !opt_quiet )
+    if ( !( flags & XBOARD ) )
+      printf ("%s\n", PACKAGE_NAME);
+    else
+      printf ("Chess\n");
 
   /* If a usage statement is required output it here */
   if (opt_help == 1){
