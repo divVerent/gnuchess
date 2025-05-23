@@ -37,7 +37,7 @@ Texts.  A copy of the license is included in the section entitled
 @end direntry
 
 @titlepage
-@title GNU Chess
+@title @value{PACKAGE_NAME}
 @subtitle for version @value{VERSION}, @value{UPDATED}
 @author @url{https://www.gnu.org/software/chess}
 @page
@@ -50,9 +50,9 @@ Texts.  A copy of the license is included in the section entitled
 
 @ifnottex
 @node Top
-@top GNU Chess
+@top @value{PACKAGE_NAME}
 
-This manual is for GNU Chess (version @value{VERSION}, @value{UPDATED}).
+This manual is for @value{PACKAGE_NAME} (version @value{VERSION}, @value{UPDATED}).
 
 @insertcopying
 @end ifnottex
@@ -61,13 +61,13 @@ This manual is for GNU Chess (version @value{VERSION}, @value{UPDATED}).
 * Overview::		General information.
 * Contact info::	How to find help and to report bugs.
 * Invocation::		Running @value{PACKAGE_NAME}.
-* Book::		How to obtain a chess book usable by GNU Chess.
+* Book file::		How to obtain a chess book usable by @value{PACKAGE_NAME}.
 * Tests::		Some execution results.
 * Chess notation::	Auxiliary file formats (PGN, EPD).
-* History::		A brief review of the long history of GNU Chess.
+* History::		A brief review of the long history of @value{PACKAGE_NAME}.
 * Known problems::	Known problems
 * Developers::		Notes for developers.
-* Translations::	GNU Chess in other languages.
+* Translations::	@value{PACKAGE_NAME} in other languages.
 * GNU Free Documentation License:: Copying and sharing this documentation.
 * Concept index::	Index of concepts.
 @end menu
@@ -79,7 +79,7 @@ This manual is for GNU Chess (version @value{VERSION}, @value{UPDATED}).
 @cindex XBoard
 @cindex overview
 
-GNU Chess is a computer program for playing chess.
+@value{PACKAGE_NAME} is a computer program for playing chess.
 It can be used to interactively play chess on a text terminal,
 but it is more often used in conjunction with a GUI program such
 as GNU XBoard.
@@ -90,7 +90,7 @@ free (in perpetuity) to share and change it.
 @cindex author
 @cindex Letouzey, Fabien
 @cindex Stuart, Cracraft
-The main author of GNU Chess version 6 is Fabien Letouzey.
+The main author of @value{PACKAGE_NAME} version 6 is Fabien Letouzey.
 The original author is Stuart Cracraft.
 
 
@@ -99,7 +99,7 @@ The original author is Stuart Cracraft.
 
 @cindex contact
 
-We are the GNU Chess developers and you may reach us at:
+We are the @value{PACKAGE_NAME} developers and you may reach us at:
 
 	@email{bug-gnu-chess@@gnu.org}
 
@@ -113,7 +113,7 @@ whose web page is:
 	@uref{https://www.fsf.org}
 
 and which also serves as our software depository for new versions of
-GNU and GNU Chess.
+GNU and @value{PACKAGE_NAME}.
 
 You can download the latest version from GNU's FTP site at:
 
@@ -123,7 +123,7 @@ The code is provided for the purpose of encouraging you to do the
 programming.  If you lack the programming skills to do so, try
 dabbling in it.  You might surprise yourself.
 
-If you want to report a possible bug in GNU Chess, please send a message
+If you want to report a possible bug in @value{PACKAGE_NAME}, please send a message
 to the e-mail address indicated above, providing precise information
 about the conditions that led to the possible bug.  As a general
 guideline, you can kindly include the follow information:
@@ -270,7 +270,7 @@ Specify memory usage in MB for hashtable.
 @itemx -a fFILENAME
 @opindex --addbook
 @opindex -a
-Compile book.bin from pgn book FILENAME and quits.
+Compile @file{book.bin} from pgn book FILENAME and quits.
 
 @item --graphic
 @itemx -g
@@ -327,7 +327,7 @@ Produce blurb on command line options.
 @cindex book
 Handle the book.  Requires a subcommand:
 
-add FILENAME - compiles book.bin from pgn book FILENAME
+add FILENAME - compiles @file{book.bin} from pgn book FILENAME
 
 on - enables use of book
 
@@ -626,9 +626,9 @@ classic view based on plain ASCII.
 @cindex environment variable
 
 If @env{XDG_CONFIG_HOME} is defined, the configuration file
-@file{gnuchess.ini} will be looked for in $XDG_CONFIG_HOME/gnuchess/.
+@file{gnuchess.ini} will be looked for in @file{$XDG_CONFIG_HOME/gnuchess/}.
 If the variable is not set or it is empty, the configuration file will
-be looked for in $HOME/.config/gnuchess/.
+be looked for in @file{$HOME/.config/gnuchess/}.
 
 
 @node Configuration file
@@ -768,6 +768,7 @@ How many seconds to wait before starting kibitzing.  This has an
 affect only if "KibitzPV" is selected, move kibitzes are always sent
 regardless of the delay.
 
+@anchor{Book}
 @item Book
 @cindex Book
 Default: false
@@ -780,6 +781,7 @@ book will be used whenever PolyGlot is out of book.  Remember that
 PolyGlot is unaware of whether the engine is itself using a book or
 not.
 
+@anchor{BookFile}
 @item BookFile
 @cindex BookFile
 Default: @file{$pkgdatadir/smallbook.bin}
@@ -936,12 +938,12 @@ by setting "Material" to a low value.
 @end table
 
 The following options were used in PolyGlot v1.4, but are deprecated in
-GNU Chess:
+@value{PACKAGE_NAME}:
 
 @table @code
 @item EngineName
 @cindex EngineName
-Default: GNU Chess
+Default: @value{PACKAGE_NAME}
 
 This is the name that will appear in the xboard interface.  It is
 cosmetic only.  You can use different names for tweaked versions of
@@ -978,7 +980,7 @@ only when necessary.  Their purpose is to try to hide problems with
 various software (not just engines).  The default value is always
 correct for bug-free software.
 
-These workarounds are unlikely to be used or meaningful for GNU Chess.
+These workarounds are unlikely to be used or meaningful for @value{PACKAGE_NAME}.
 
 @table @code
 @item UCIVersion
@@ -1021,7 +1023,7 @@ incorrect form (and of course promotes into a queen).
 @section Output files
 
 @cindex output
-GNU Chess produces several output files:
+@value{PACKAGE_NAME} produces several output files:
 
 @table @file
 
@@ -1095,7 +1097,7 @@ the graphical display front-end with mouse interface.
 For historical reasons the option "xboard" does not need to be
 preceded by "--"; however we would encourage the new syntax.
 
-How to run XBoard with GNU Chess as backend (first chess engine):
+How to run XBoard with @value{PACKAGE_NAME} as backend (first chess engine):
 
 @example
 xboard -fcp 'gnuchess --xboard'
@@ -1103,7 +1105,7 @@ xboard -fcp 'gnuchess --xboard'
 xboard -fd . -fcp './gnuchess --xboard'
 @end example
 
-How to run XBoard with GNU Chess playing against itself:
+How to run XBoard with @value{PACKAGE_NAME} playing against itself:
 
 @example
 ./xboard -fcp './gnuchess -x' -fd . -scp './gnuchess -x' -sd . -pieceImageDirectory 'svg' -matchMode T -tc 1
@@ -1114,7 +1116,7 @@ How to run XBoard with GNU Chess playing against itself:
 @section UCI chess engine
 
 @cindex uci
-For GNU Chess to behave as a pure UCI chess engine, execute
+For @value{PACKAGE_NAME} to behave as a pure UCI chess engine, execute
 the following command:
 
 @example
@@ -1127,29 +1129,29 @@ In this mode, configuration file @file{gnuchess.ini} is ignored.
 @node Internet
 @section Internet
 
-For GNU Chess to run in Internet, Zippy is required.
+For @value{PACKAGE_NAME} to run in Internet, Zippy is required.
 See Zippy documentation in the XBoard/WinrBoard distribution:
 
 @uref{https://www.tim-mann.org/}
 
-this is an example of how to run GNU Chess on FICS using
+this is an example of how to run @value{PACKAGE_NAME} on FICS using
 XBoard as frontend and Zippy as connector:
 
 @example
 xboard -zp -ics -icshost freechess.org -icshelper timeseal -fcp 'gnuchess --xboard'
 @end example
 
-@node Book
-@chapter Book
+@node Book file
+@chapter Book file
 
-@cindex book
-See options @option{Book} and @option{Bookfile} in Running GNU Chess - Configuration file - Options
+@cindex book file
+@xref{Book} and @xref{BookFile} in Running @value{PACKAGE_NAME} - Configuration file - Options
 
 
 @node Tests
 @chapter Tests
 
-GNU Chess 6 has been tested on the Free Internet Chess Server
+@value{PACKAGE_NAME} 6 has been tested on the Free Internet Chess Server
 (@uref{https://www.freechess.org}) with XBoard.
 
 @node Chess notation
@@ -1197,7 +1199,7 @@ reporting bugs and keeping track of your games.
 @cindex Kong-Sian, Chua
 @cindex Letouzey, Fabien
 
-The first version of GNU Chess was written by Stuart Cracraft back in 1984.
+The first version of @value{PACKAGE_NAME} was written by Stuart Cracraft back in 1984.
 Versions from 2 to 4 were written by John Stanback.  Version 5 was written
 by Chua Kong-Sian.  Version 6 was written by Fabien Letouzey.
 
@@ -1233,7 +1235,7 @@ pondering/remaining-time relation.
 
 @menu
 * Background of v6::
-* Guidelines followed to develop GNU Chess v6::
+* Guidelines followed to develop @value{PACKAGE_NAME} v6::
 * Chess engine protocol adapter::
 * Structure of the source code::
 * C/C++ coexistence::
@@ -1246,30 +1248,30 @@ pondering/remaining-time relation.
 @cindex version 5
 @cindex Fruit
 @cindex Letouzey, Fabien
-Since version 5.07 of the program was released in 2003, GNU Chess has basically
+Since version 5.07 of the program was released in 2003, @value{PACKAGE_NAME} has basically
 remained unchanged.  Then Fabien Letouzey developed Fruit, which
 proved to be a stronger chess engine and shaked the computer chess world.
 At some point in time, he kindly assigned copyright to FSF, which allowed us
-to make Fruit 2.1 (the latest free version) the base for GNU Chess v6.
+to make Fruit 2.1 (the latest free version) the base for @value{PACKAGE_NAME} v6.
 
 Therefore, it can be fairly said that Fabien Letouzey is remarkably the main
-contributor to GNU Chess v6.
+contributor to @value{PACKAGE_NAME} v6.
 
-@node Guidelines followed to develop GNU Chess v6
-@section Guidelines followed to develop GNU Chess v6
+@node Guidelines followed to develop @value{PACKAGE_NAME} v6
+@section Guidelines followed to develop @value{PACKAGE_NAME} v6
 
 @cindex Fruit
-The idea was to use Fruit 2.1 as the base for GNU Chess v6, keeping external
+The idea was to use Fruit 2.1 as the base for @value{PACKAGE_NAME} v6, keeping external
 interfaces backwards compatible.  This is particularly important since
-GNU Chess has been  world-wide used for long.
+@value{PACKAGE_NAME} has been  world-wide used for long.
 
-GNU Chess can be used in two modes: interactively using the command-line
+@value{PACKAGE_NAME} can be used in two modes: interactively using the command-line
 interface on a text console, and used as backend engine from a graphical
 frontend.  Both cases rely on almost identical grammar.  The former is described
-in GNU Chess help.
+in @value{PACKAGE_NAME} help.
 
 @cindex Chess Engine Communication Protocol
-When GNU Chess is used as a pure chess engine, for instance, as backend for
+When @value{PACKAGE_NAME} is used as a pure chess engine, for instance, as backend for
 XBoard, it uses the Chess Engine Communication Protocol (aka XBoard protocol),
 which is described here:
 
@@ -1278,11 +1280,11 @@ which is described here:
 @cindex Universal Chess Interface
 @cindex UCI
 Since Fruit uses the Universal Chess Interface (UCI), keeping the former
-interface was the main challenge of GNU Chess v6.  UCI is described here:
+interface was the main challenge of @value{PACKAGE_NAME} v6.  UCI is described here:
 
 @uref{https://www.shredderchess.com/chess-features/uci-universal-chess-interface.html}
 
-GNU Chess can also run as a UCI chess engine, if the @option{--uci} command-line
+@value{PACKAGE_NAME} can also run as a UCI chess engine, if the @option{--uci} command-line
 option is specified.
 
 @node Chess engine protocol adapter
@@ -1307,9 +1309,9 @@ PolyGlot tries to solve known problems with other adapters.  For
 instance, it detects and reports draws by fifty-move rule, repetition,
 etc.
 
-PolyGlot 1.4 has been adapted and incorporated to GNU Chess v6 as
-chess engine protocol adapter.  It connects Fruit-based GNU Chess engine to
-the good old GNU Chess frontend.
+PolyGlot 1.4 has been adapted and incorporated to @value{PACKAGE_NAME} v6 as
+chess engine protocol adapter.  It connects Fruit-based @value{PACKAGE_NAME} engine to
+the good old @value{PACKAGE_NAME} frontend.
 
 @node Structure of the source code
 @section Structure of the source code
@@ -1318,7 +1320,7 @@ the good old GNU Chess frontend.
 @cindex frontend
 @cindex adapter
 @cindex engine
-We want to keep three loosely-coupled modules in GNU Chess v6:
+We want to keep three loosely-coupled modules in @value{PACKAGE_NAME} v6:
 
 @itemize
 @item
@@ -1345,12 +1347,12 @@ The links are based on pipes.  There is no need for additional synchronization
 mechanisms such as mutex.  The changes in PolyGlot and Fruit are minimal, since
 they were already using the same mechanism to communicate with each other.
 
-Another technical problem was the fact that GNU Chess v5 was written in C,
-whereas PolyGlot and Fruit are written in C++.  In GNU Chess v6 the main
+Another technical problem was the fact that @value{PACKAGE_NAME} v5 was written in C,
+whereas PolyGlot and Fruit are written in C++.  In @value{PACKAGE_NAME} v6 the main
 program, the adapter and the engine are in C++, but the frontend remains in C.
 
-Source code was placed under a single @file{src} in GNU Chess v5, as usual.
-Three additional directories have been created  for GNU Chess v6,
+Source code was placed under a single @file{src} in @value{PACKAGE_NAME} v5, as usual.
+Three additional directories have been created  for @value{PACKAGE_NAME} v6,
 so the code is organized in four directories:
 
 @table @file
@@ -1364,7 +1366,7 @@ communicate the three modules: frontend, adapter and engine.
 @item src/frontend
 @cindex src/frontend
 
-Contains the frontend.  The code here is inherited from GNU Chess v5, with some
+Contains the frontend.  The code here is inherited from @value{PACKAGE_NAME} v5, with some
 modifications mainly in @file{cmd.c} and a new file @file{engine.c} which
 addresses the message passing through modules.
 
@@ -1552,9 +1554,9 @@ to make the code shorter and more flexible.
 @node Translations
 @chapter Translations
 
-English is the native language of GNU Chess, as usual in the
+English is the native language of @value{PACKAGE_NAME}, as usual in the
 GNU Project.
-Starting on version 6.1.0, GNU Chess features internationalization
+Starting on version 6.1.0, @value{PACKAGE_NAME} features internationalization
 support based on GNU @command{gettext}. The Translation Project
 contributes message strings translated into other languages. See the
 @uref{https://translationproject.org/domain/gnuchess.html,
