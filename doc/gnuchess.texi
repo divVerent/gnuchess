@@ -1214,7 +1214,7 @@ by Chua Kong-Sian.  Version 6 was written by Fabien Letouzey.
 @node Adapter
 @section Adapter
 
-@cindex version 5
+@cindex adapter
 These are known problems of PolyGlot v1.4 as described by Fabien Letouzey.
 
 The addition of Chess960 support lead to a change in internal-move
@@ -1245,13 +1245,14 @@ pondering/remaining-time relation.
 @node Background of v6
 @section Background of v6
 
-@cindex version 5
 @cindex Fruit
 @cindex Letouzey, Fabien
-Since version 5.07 of the program was released in 2003, @value{PACKAGE_NAME} has basically
-remained unchanged.  Then Fabien Letouzey developed Fruit, which
+@cindex version 5
+@cindex version 6
+The last version of the v5 series of @value{PACKAGE_NAME} was 5.08, released in 2011.
+By that time, Fabien Letouzey had developed Fruit, which
 proved to be a stronger chess engine and shaked the computer chess world.
-At some point in time, he kindly assigned copyright to FSF, which allowed us
+At some point in time, Fabien kindly assigned copyright to the FSF, which allowed us
 to make Fruit 2.1 (the latest free version) the base for @value{PACKAGE_NAME} v6.
 
 Therefore, it can be fairly said that Fabien Letouzey is remarkably the main
@@ -1364,20 +1365,20 @@ Contains the @command{main} and a source file used to create the pipes that
 communicate the three modules: frontend, adapter and engine.
 
 @item src/frontend
-@cindex src/frontend
+@cindex frontend
 
 Contains the frontend.  The code here is inherited from @value{PACKAGE_NAME} v5, with some
 modifications mainly in @file{cmd.c} and a new file @file{engine.c} which
 addresses the message passing through modules.
 
 @item src/adapter
-@cindex src/adapter
+@cindex adapter
 
 Contains the chess protocol adapter, based on PolyGlot 1.4.  Minor changes, wrt
 the baseline.
 
 @item src/engine
-@cindex src/engine
+@cindex engine
 
 Contains the chess engine, based on Fruit 2.1.  Minor changes wrt the baseline.
 
