@@ -1555,6 +1555,8 @@ to make the code shorter and more flexible.
 @node Translations
 @chapter Translations
 
+@cindex translations
+@cindex Translation Project
 English is the native language of @value{PACKAGE_NAME}, as usual in the
 GNU Project.
 Starting on version 6.1.0, @value{PACKAGE_NAME} features internationalization
@@ -1572,6 +1574,13 @@ An individual user can select his or her own language by setting the
 
 @example
 export LANGUAGE=de_DE
+@end example
+
+The language selection can be constrained to a single execution session
+like this for Galician:
+
+@example
+LANGUAGE=gl gnuchess
 @end example
 
 See details on this at
