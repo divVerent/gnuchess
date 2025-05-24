@@ -1,6 +1,6 @@
 INSTALL of GNU Chess
 
-  Copyright (C) 2001-2012 Free Software Foundation, Inc.
+  Copyright (C) 2001-2025 Free Software Foundation, Inc.
 
   Copying and distribution of this file, with or without modification,
   are permitted in any medium without royalty provided the copyright
@@ -17,9 +17,9 @@ to configure, just type ./configure --help for advice. In particular,
 you may experiment with compiler optimization flags, which are added
 easily as (assuming you have a bourne-type shell)
 
-CFLAGS="-O3 -ffast-math" ./configure
+CXXFLAGS="-O3 -ffast-math" ./configure
 
-The build should work with gcc. It should also work with other
+The build should work with g++. It should also work with other
 compilers.
 
 Test gnuchess by typing
@@ -57,7 +57,7 @@ than /usr/local, replace the first line by
 
 You can build an opening book which may enhance the value
 of gnuchess quite a lot. In order to do so, get the file
-book_1.02.pgn (http://ftp.gnu.org/gnu/chess/book_1.02.pgn.gz)
+book_1.02.pgn (https://ftp.gnu.org/gnu/chess/book_1.02.pgn.gz)
 and type the following.
 
 	./gnuchess
@@ -76,11 +76,13 @@ following instead:
 
 This will make a much smaller book.
 
-In order to use the book, edit gnuchess.ini and set the value of
-'Book' or 'OwnBook' to true.
+In order to use the book, edit the configuration file 'gnuchess.ini' and
+set the value of 'Book' or 'OwnBook' to true. The program will look for
+this file in $XDG_CONFIG_HOME/gnuchess/ and $HOME/.config/gnuchess/.
 
-You can run the program in UCI mode, which makes it externally behave as 
-a UCI engine. This is not intended for interactive usage, but for backend 
-engine of a UCI-enabled chess graphical interface. Type the following:
+You can run the program in UCI mode, which makes it externally behave as
+a UCI engine. This is not intended for interactive usage, but as a
+backend engine of a UCI-enabled chess graphical interface. Type the
+following:
 
 	./gnuchess -u
