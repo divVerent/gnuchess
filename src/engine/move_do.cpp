@@ -169,6 +169,7 @@ void move_do(board_t * board, int move, undo_t * undo) {
 
    sq = to;
    if (MOVE_IS_EN_PASSANT(move)) sq = SQUARE_EP_DUAL(sq);
+   if (MOVE_IS_EN_PASSANT(move)) board->en_passant_count[me] += 1;
 
    if ((capture=board->square[sq]) != Empty) {
 
@@ -308,6 +309,8 @@ void move_undo(board_t * board, int move, const undo_t * undo) {
    }
 
    // update board info
+
+   if (MOVE_IS_EN_PASSANT(move)) board->en_passant_count[me] -= 1;
 
    board->turn = undo->turn;
    board->flags = undo->flags;

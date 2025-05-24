@@ -34,6 +34,7 @@
 #include "option.h"
 #include "pawn.h"
 #include "piece.h"
+#include "search.h"
 #include "see.h"
 #include "util.h"
 #include "value.h"
@@ -109,6 +110,22 @@ static const int AttackerDistance = 5;
 static const int DefenderDistance = 20;
 
 static const int TempoBonus = 10;
+
+// Engine always wants En Passant to happen, but scores it as rook when it does
+// it, and as pawn when the opponent does it. It believes the opponent wants
+// to avoid En Passant.
+static const int EnPassantMyOpening = 500;  // Same as RookOpening.
+static const int EnPassantMyEndgame = 500;  // Same as RookEndgame.
+static const int EnPassantTheirOpening = -80;  // Same as -PawnOpening.
+static const int EnPassantTheirEndgame = -90;  // Same as -PawnEndgame.
+
+/*
+// Engine wants only its own En Passant to happen, and scores it as rook.
+static const int EnPassantMyOpening = 500;  // Same as RookOpening.
+static const int EnPassantMyEndgame = 500;  // Same as RookEndgame.
+static const int EnPassantTheirOpening = 500;  // Same as RookOpening.
+static const int EnPassantTheirEndgame = 500;  // Same as RookEndgame.
+*/
 
 // "constants"
 
@@ -250,6 +267,19 @@ int eval(const board_t * board) {
 
    opening = 0;
    endgame = 0;
+
+   // en passant
+   if (COLOUR_IS_WHITE(SearchInput->board->turn)) {
+     opening += EnPassantMyOpening * board->en_passant_count[White];
+     endgame += EnPassantMyEndgame * board->en_passant_count[White];
+     opening -= EnPassantTheirOpening * board->en_passant_count[Black];
+     endgame -= EnPassantTheirEndgame * board->en_passant_count[Black];
+   } else {
+     opening += EnPassantTheirOpening * board->en_passant_count[White];
+     endgame += EnPassantTheirEndgame * board->en_passant_count[White];
+     opening -= EnPassantMyOpening * board->en_passant_count[Black];
+     endgame -= EnPassantMyEndgame * board->en_passant_count[Black];
+   }
 
    // material
 

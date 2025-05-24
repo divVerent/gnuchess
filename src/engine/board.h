@@ -90,6 +90,8 @@ struct board_t {
 
    int cap_sq;
 
+   int en_passant_count[ColourNb];
+
    int opening;
    int endgame;
 

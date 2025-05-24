@@ -217,6 +217,8 @@ void board_clear(board_t * board) {
    board->flags = FlagsNone;
    board->ep_square = SquareNone;
    board->ply_nb = 0;
+   board->en_passant_count[White] = 0;
+   board->en_passant_count[Black] = 0;
 }
 
 // board_copy()
