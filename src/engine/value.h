@@ -40,15 +40,18 @@ const int ValueRook   = 500;   // was 500
 const int ValueQueen  = 1000;  // was 900
 const int ValueKing   = 10000; // was 10000
 
+const int MaxMaterial = 15 * 2;  // Higher material is impossible in standard chess.
+const int MaterialMultiplier = 20;  // Times 20 for human debugging.
+
 const int ValueNone    = -32767;
 const int ValueDraw    = 0;
 const int ValueMate    = 30000;
 const int ValueInf     = ValueMate;
-const int ValueEvalInf = ValueMate - 256; // handle mates upto 255 plies
+const int ValueEvalInf = ValueMate - 256 - 2 * MaxMaterial * MaterialMultiplier; // handle mates upto 255 plies
 
 // macros
 
-#define VALUE_MATE(height) (-ValueMate+(height))
+#define VALUE_MATE(height, mat) (-ValueMate+(height)+(MaxMaterial+(mat))*MaterialMultiplier)
 #define VALUE_PIECE(piece) (ValuePiece[piece])
 
 // variables

@@ -28,6 +28,7 @@
 #include "colour.h"
 #include "eval.h"
 #include "list.h"
+#include "material.h"
 #include "move.h"
 #include "move_check.h"
 #include "move_do.h"
@@ -360,6 +361,46 @@ static int full_root(list_t * list, board_t * board, int alpha, int beta, int de
    return best_value;
 }
 
+static bool UseMaterialForMate(const board_t * board, int turn) {
+   if (SearchInput->board->en_passant_count[White] != 0 || SearchInput->board->en_passant_count[Black] != 0 || SearchInput->board->turn == turn) {
+      return false;
+   }
+   return true;
+}
+
+static int MaterialForMate(const board_t * board, int turn) {
+   if (!UseMaterialForMate(board, turn)) {
+      return 0;
+   }
+   // Soul Crusher mode: try to mate with as many opponent pieces captured and maximum own queens.
+   int score;
+   int pawns_halfway_through = 0;
+   if (COLOUR_IS_BLACK(turn)) {
+      for (int i = 0; i < board->pawn_size[White]; ++i) {
+         if (SQUARE_RANK(board->pawn[White][i]) >= Rank6) {
+            ++pawns_halfway_through;
+         }
+      }
+      score = (board->number[BlackPawn12] + board->number[BlackKnight12] + board->number[BlackBishop12] + board->number[BlackRook12] + board->number[BlackQueen12] - board->number[WhiteQueen12]) * 2 - pawns_halfway_through;
+   } else {
+      for (int i = 0; i < board->pawn_size[Black]; ++i) {
+         if (SQUARE_RANK(board->pawn[Black][i]) <= Rank3) {
+            ++pawns_halfway_through;
+         }
+      }
+      score = (board->number[WhitePawn12] + board->number[WhiteKnight12] + board->number[WhiteBishop12] + board->number[WhiteRook12] + board->number[WhiteQueen12] - board->number[BlackQueen12]) * 2 - pawns_halfway_through;
+   }
+   if (score < -MaxMaterial) {
+      score = -MaxMaterial;
+   }
+   if (score > MaxMaterial) {
+      score = MaxMaterial;
+   }
+   return score;
+}
+
+const int MaterialForMateBonus = 8 + MaterialMultiplier * 2;  // Search 8 extra plies and allow 2 material higher than the known mate (as the known mate may be a capture).
+
 // full_search()
 
 static int full_search(board_t * board, int alpha, int beta, int depth, int height, mv_t pv[], int node_type) {
@@ -418,8 +459,10 @@ static int full_search(board_t * board, int alpha, int beta, int depth, int heig
 
       // lower bound
 
-      value = VALUE_MATE(height+2); // does not work if the current position is mate
-      if (value > alpha && board_is_mate(board)) value = VALUE_MATE(height);
+      int bonus = UseMaterialForMate(board, board->turn) ? MaterialForMateBonus : 0;
+      int mat = MaterialForMate(board, board->turn);
+      value = VALUE_MATE(height+2, mat) - bonus; // does not work if the current position is mate
+      if (value > alpha && board_is_mate(board)) value = VALUE_MATE(height, mat) - bonus;
 
       if (value > alpha) {
          alpha = value;
@@ -428,7 +471,9 @@ static int full_search(board_t * board, int alpha, int beta, int depth, int heig
 
       // upper bound
 
-      value = -VALUE_MATE(height+1);
+      bonus = UseMaterialForMate(board, COLOUR_OPP(board->turn)) ? MaterialForMateBonus : 0;
+      mat = MaterialForMate(board, COLOUR_OPP(board->turn));
+      value = -VALUE_MATE(height+1, mat) + bonus;
 
       if (value < beta) {
          beta = value;
@@ -676,7 +721,9 @@ static int full_search(board_t * board, int alpha, int beta, int depth, int heig
    if (best_value == ValueNone) { // no legal move
       if (in_check) {
          ASSERT(board_is_mate(board));
-         return VALUE_MATE(height);
+         int mat = MaterialForMate(board, board->turn);
+         //fprintf(stderr, "[fs] height %d, mat %d -> value %d\n", height, mat, VALUE_MATE(height, mat));
+         return VALUE_MATE(height, mat);
       } else {
          ASSERT(board_is_stalemate(board));
          return ValueDraw;
@@ -850,8 +897,10 @@ static int full_quiescence(board_t * board, int alpha, int beta, int depth, int 
 
       // lower bound
 
-      value = VALUE_MATE(height+2); // does not work if the current position is mate
-      if (value > alpha && board_is_mate(board)) value = VALUE_MATE(height);
+      int bonus = UseMaterialForMate(board, board->turn) ? MaterialForMateBonus : 0;
+      int mat = MaterialForMate(board, board->turn);
+      value = VALUE_MATE(height+2, mat) - bonus; // does not work if the current position is mate
+      if (value > alpha && board_is_mate(board)) value = VALUE_MATE(height, mat) - bonus;
 
       if (value > alpha) {
          alpha = value;
@@ -860,7 +909,9 @@ static int full_quiescence(board_t * board, int alpha, int beta, int depth, int 
 
       // upper bound
 
-      value = -VALUE_MATE(height+1);
+      bonus = UseMaterialForMate(board, COLOUR_OPP(board->turn)) ? MaterialForMateBonus : 0;
+      mat = MaterialForMate(board, COLOUR_OPP(board->turn));
+      value = -VALUE_MATE(height+1, mat) + bonus;
 
       if (value < beta) {
          beta = value;
@@ -975,7 +1026,9 @@ static int full_quiescence(board_t * board, int alpha, int beta, int depth, int 
 
    if (best_value == ValueNone) { // no legal move
       ASSERT(board_is_mate(board));
-      return VALUE_MATE(height);
+      int mat = MaterialForMate(board, board->turn);
+      //fprintf(stderr, "[q] height %d, mat %d -> value %d\n", height, mat, VALUE_MATE(height, mat));
+      return VALUE_MATE(height, mat);
    }
 
 cut:
