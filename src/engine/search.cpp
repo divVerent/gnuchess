@@ -23,6 +23,9 @@
 
 // includes
 
+#include <sys/signal.h>
+#include <unistd.h>
+
 #include <csetjmp>
 
 #include "attack.h"
@@ -71,6 +74,12 @@ static const double EarlyRatio = 0.60;
 static const bool UseBad = true;
 static const int BadThreshold = 50; // 50
 static const bool UseExtension = true;
+
+// If the engine didn't finish its first round search after 10 seconds, crash.
+static const int InitialWatchdogSeconds = 30;
+
+// If the engine didn't respond after 10 seconds, crash.
+static const int WatchdogSeconds = 10;
 
 // variables
 
@@ -150,9 +159,16 @@ void search_clear() {
    SearchCurrent->cpu = 0.0;
 }
 
+extern "C" void sigalrm_caught(int) {
+   char str[] = "SIGALRM caught - bailing out!\n";
+   write(2, str, sizeof(str) - 1);
+   raise(SIGABRT);  // Dumps core.
+}
+
 // search()
 
 void search() {
+   signal(SIGALRM, sigalrm_caught);
 
    int move;
    int depth;
@@ -194,11 +210,15 @@ void search() {
    // SearchInfo
 
    if (setjmp(SearchInfo->buf) != 0) {
+      alarm(0);
       ASSERT(SearchInfo->can_stop);
       ASSERT(SearchBest->move!=MoveNone);
       search_update_current();
       return;
    }
+
+   // Set watchdog timer.
+   alarm(InitialWatchdogSeconds);
 
    // SearchRoot
 
@@ -242,7 +262,10 @@ void search() {
 
       // update search info
 
-      if (depth >= 1) SearchInfo->can_stop = true;
+      if (depth >= 1) {
+         SearchInfo->can_stop = true;
+         alarm(WatchdogSeconds);
+      }
 
       if (depth == 1
        && LIST_SIZE(SearchRoot->list) >= 2
@@ -288,11 +311,17 @@ void search() {
          SearchRoot->flag = true;
       }
 
+      if (SearchInfo->can_stop) {
+        alarm(WatchdogSeconds);
+      }
+
       if (SearchInfo->can_stop
        && (SearchInfo->stop || (SearchRoot->flag && !SearchInput->infinite))) {
          break;
       }
    }
+
+   alarm(0);
 }
 
 // search_update_best()
@@ -439,6 +468,10 @@ void search_check() {
     && !SearchRoot->bad_2
     && (!UseExtension || SearchRoot->move_pos == 0)) {
       SearchRoot->flag = true;
+   }
+
+   if (SearchInfo->can_stop) {
+     alarm(WatchdogSeconds);
    }
 
    if (SearchInfo->can_stop
