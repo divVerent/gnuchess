@@ -80,6 +80,7 @@ static const int IIDReduction = 2;
 // extensions
 
 static const bool ExtendSingleReply = true; // true
+static const bool NoExtendFraction = 4; // Fractional plies when extending.
 
 // history pruning
 
@@ -122,7 +123,7 @@ static int  full_no_null         (board_t * board, int alpha, int beta, int dept
 
 static int  full_quiescence      (board_t * board, int alpha, int beta, int depth, int height, mv_t pv[]);
 
-static int  full_new_depth       (int depth, int move, board_t * board, bool single_reply, bool in_pv);
+static int  full_new_depth       (int depth, int move, board_t * board, bool single_reply, bool in_pv, int height);
 
 static bool do_null              (const board_t * board);
 static bool do_ver               (const board_t * board);
@@ -294,7 +295,7 @@ static int full_root(list_t * list, board_t * board, int alpha, int beta, int de
 
       search_update_root();
 
-      new_depth = full_new_depth(depth,move,board,board_is_check(board)&&LIST_SIZE(list)==1,true);
+      new_depth = full_new_depth(depth,move,board,board_is_check(board)&&LIST_SIZE(list)==1,true,height);
 
       move_do(board,move,undo);
 
@@ -620,7 +621,7 @@ static int full_search(board_t * board, int alpha, int beta, int depth, int heig
 
       // extensions
 
-      new_depth = full_new_depth(depth,move,board,single_reply,node_type==NodePV);
+      new_depth = full_new_depth(depth,move,board,single_reply,node_type==NodePV,height);
 
       // history pruning
 
@@ -819,7 +820,7 @@ static int full_no_null(board_t * board, int alpha, int beta, int depth, int hei
 
    while ((move=sort_next(sort)) != MoveNone) {
 
-      new_depth = full_new_depth(depth,move,board,false,false);
+      new_depth = full_new_depth(depth,move,board,false,false,height);
 
       move_do(board,move,undo);
       value = -full_search(board,-beta,-alpha,new_depth,height+1,new_pv,NODE_OPP(node_type));
@@ -1040,7 +1041,7 @@ cut:
 
 // full_new_depth()
 
-static int full_new_depth(int depth, int move, board_t * board, bool single_reply, bool in_pv) {
+static int full_new_depth(int depth, int move, board_t * board, bool single_reply, bool in_pv, int height) {
 
    int new_depth;
 
@@ -1053,6 +1054,11 @@ static int full_new_depth(int depth, int move, board_t * board, bool single_repl
    ASSERT(depth>0);
 
    new_depth = depth - 1;
+
+   if (height % NoExtendFraction == 0) {
+      // Modulus 0 is always in the toplevel full_root call.
+      return new_depth;
+   }
 
    if ((single_reply && ExtendSingleReply)
     || (in_pv && MOVE_TO(move) == board->cap_sq // recapture
