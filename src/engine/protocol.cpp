@@ -54,6 +54,11 @@ namespace engine {
 static const double NormalRatio = 1.0;
 static const double PonderRatio = 1.25;
 
+static const int MaxMovesToGoNormal = 40;  // Same as Glaurung
+static const int MaxMovesToGoWithIncrement = 30;  // Same as Glaurung
+static const double MaxTimeFractionNormal = 0.25;  // Glaurung: 0.125
+static const double MaxTimeFractionWithIncrement = 0.5;  // Glaurung: 0.25
+
 // variables
 
 static bool Init;
@@ -274,11 +279,11 @@ static void parse_go(char string[]) {
 
    const char * ptr;
    bool infinite, ponder;
-   int depth, mate, movestogo;
+   int depth, mate, movestogo, max_movestogo;
    sint64 nodes;
    double binc, btime, movetime, winc, wtime;
    double time, inc;
-   double time_max, alloc;
+   double time_max, alloc, max_time_fraction;
 
    // init
 
@@ -415,7 +420,15 @@ static void parse_go(char string[]) {
       inc = binc;
    }
 
-   if (movestogo <= 0 || movestogo > 30) movestogo = 30; // HACK
+   if (inc <= 0.0) {
+      max_movestogo = MaxMovesToGoNormal;
+      max_time_fraction = MaxTimeFractionNormal;
+   } else {
+      max_movestogo = MaxMovesToGoWithIncrement;
+      max_time_fraction = MaxTimeFractionWithIncrement;
+   }
+
+   if (movestogo <= 0 || movestogo > max_movestogo) movestogo = max_movestogo; // HACK
    if (inc < 0.0) inc = 0.0;
 
    if (movetime >= 0.0) {
@@ -435,12 +448,14 @@ static void parse_go(char string[]) {
 
       SearchInput->time_is_limited = true;
 
+      // Soft limit.
       alloc = (time_max + inc * double(movestogo-1)) / double(movestogo);
       alloc *= (option_get_bool("Ponder") ? PonderRatio : NormalRatio);
       if (alloc > time_max) alloc = time_max;
       SearchInput->time_limit_1 = alloc;
 
-      alloc = (time_max + inc * double(movestogo-1)) * 0.5;
+      // Hard limit.
+      alloc = (time_max + inc * double(movestogo-1)) * max_time_fraction;
       if (alloc < SearchInput->time_limit_1) alloc = SearchInput->time_limit_1;
       if (alloc > time_max) alloc = time_max;
       SearchInput->time_limit_2 = alloc;
