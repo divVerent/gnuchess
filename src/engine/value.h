@@ -40,7 +40,7 @@ const int ValueRook   = 500;   // was 500
 const int ValueQueen  = 1000;  // was 900
 const int ValueKing   = 10000; // was 10000
 
-const int MaxMaterial = 15 * 2;  // Higher material is impossible in standard chess.
+const int MaxMaterial = 15 * 3;  // Higher material is impossible in standard chess.
 const int MaterialMultiplier = 20;  // Times 20 for human debugging.
 
 const int ValueNone    = -32767;

@@ -375,21 +375,27 @@ static int MaterialForMate(const board_t * board, int turn) {
    }
    // Soul Crusher mode: try to mate with as many opponent pieces captured and maximum own queens.
    int score;
-   int pawns_halfway_through = 0;
+   int pawns_bonus = 0;
    if (COLOUR_IS_BLACK(turn)) {
       for (int i = 0; i < board->pawn_size[White]; ++i) {
+         if (SQUARE_RANK(board->pawn[White][i]) >= Rank4) {
+            ++pawns_bonus;
+         }
          if (SQUARE_RANK(board->pawn[White][i]) >= Rank6) {
-            ++pawns_halfway_through;
+            ++pawns_bonus;
          }
       }
-      score = (board->number[BlackPawn12] + board->number[BlackKnight12] + board->number[BlackBishop12] + board->number[BlackRook12] + board->number[BlackQueen12] - board->number[WhiteQueen12]) * 2 - pawns_halfway_through;
+      score = (board->number[BlackPawn12] + board->number[BlackKnight12] + board->number[BlackBishop12] + board->number[BlackRook12] + board->number[BlackQueen12] - board->number[WhiteQueen12]) * 3 - pawns_bonus;
    } else {
       for (int i = 0; i < board->pawn_size[Black]; ++i) {
+         if (SQUARE_RANK(board->pawn[Black][i]) <= Rank5) {
+            ++pawns_bonus;
+         }
          if (SQUARE_RANK(board->pawn[Black][i]) <= Rank3) {
-            ++pawns_halfway_through;
+            ++pawns_bonus;
          }
       }
-      score = (board->number[WhitePawn12] + board->number[WhiteKnight12] + board->number[WhiteBishop12] + board->number[WhiteRook12] + board->number[WhiteQueen12] - board->number[BlackQueen12]) * 2 - pawns_halfway_through;
+      score = (board->number[WhitePawn12] + board->number[WhiteKnight12] + board->number[WhiteBishop12] + board->number[WhiteRook12] + board->number[WhiteQueen12] - board->number[BlackQueen12]) * 3 - pawns_bonus;
    }
    if (score < -MaxMaterial) {
       score = -MaxMaterial;
