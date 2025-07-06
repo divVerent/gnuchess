@@ -6,9 +6,9 @@
 #, fuzzy
 msgid ""
 msgstr ""
-"Project-Id-Version: gnuchess 6.3.0-pre2\n"
+"Project-Id-Version: gnuchess 6.3.0-pre3\n"
 "Report-Msgid-Bugs-To: bug-gnu-chess@gnu.org\n"
-"POT-Creation-Date: 2025-05-19 00:09+0200\n"
+"POT-Creation-Date: 2025-07-06 12:04+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -17,21 +17,21 @@ msgstr ""
 "Content-Type: text/plain; charset=CHARSET\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: src/main.cc:326
+#: src/main.cc:327
 #, c-format
 msgid "Memory out of range or invalid.\n"
 msgstr ""
 
-#: src/main.cc:343
+#: src/main.cc:344
 #, c-format
 msgid "File name is too long (max = %d).\n"
 msgstr ""
 
-#: src/main.cc:349
+#: src/main.cc:350
 msgid "Option processing failed.\n"
 msgstr ""
 
-#: src/main.cc:505
+#: src/main.cc:506
 #, c-format
 msgid "Thinking...\n"
 msgstr ""
@@ -729,7 +729,7 @@ msgstr ""
 msgid "List of commands: (help COMMAND to get more help)\n"
 msgstr ""
 
-#: src/frontend/engine.cc:315
+#: src/frontend/engine.cc:325
 #, c-format
 msgid ""
 "\n"
