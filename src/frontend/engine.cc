@@ -2,7 +2,7 @@
  
    GNU Chess frontend
 
-   Copyright (C) 2001-2021 Free Software Foundation, Inc.
+   Copyright (C) 2001-2025 Free Software Foundation, Inc.
 
    GNU Chess is based on the two research programs
    Cobalt by Chua Kong-Sian and Gazebo by Stuart Cracraft.
@@ -148,11 +148,16 @@ int ReadFromEngine( void )
     printf( "Error reading engine input.\n" );
   } else if ( engineinputready > 0 ) {
     /* There are some data from the engine. Store it in buffer */
-    strncpy( engineinputaux, zerochar, BUF_SIZE );
     nread = read( pipefd_a2f[0], engineinputaux, BUF_SIZE );
+    int prev_len = strlen(engineinputbuf);
+    int nremaining = sizeof(engineinputbuf) - prev_len - 1;
+    if (nread > nremaining) {
+      printf( "Overflow reading engine input. Some input has been cut off.\n" );
+      nread = nremaining;
+    }
     /*write( STDOUT_FILENO, engineinputaux, BUF_SIZE );*/
-    strcat( engineinputbuf, engineinputaux );
-    engineinputbuf[strlen( engineinputbuf ) + nread] = '\0';
+    memcpy(engineinputbuf + prev_len, engineinputaux, nread);
+    engineinputbuf[prev_len + nread] = '\0';
   }
 
   return ( engineinputready );
@@ -183,10 +188,15 @@ void ReadFromUser( void )
     printf( "Error reading user input.\n" );
   } else if ( userinputready > 0 ) {
     /* There are some data from the user. Store it in buffer */
-    strncpy( userinputaux, zerochar, BUF_SIZE );
     nread = read( pipefd_i2f[0], userinputaux, BUF_SIZE );
-    strcat( userinputbuf, userinputaux );
-    userinputbuf[strlen( userinputbuf ) + nread] = '\0';
+    int prev_len = strlen(userinputbuf);
+    int nremaining = sizeof(userinputbuf) - prev_len - 1;
+    if (nread > nremaining) {
+      printf( "Overflow reading user input. Some input has been cut off.\n" );
+      nread = nremaining;
+    }
+    memcpy(userinputbuf + prev_len, userinputaux, nread);
+    userinputbuf[prev_len + nread] = '\0';
   }
 }
 
@@ -504,15 +514,18 @@ void ForwardUserInputToEngine( void )
     printf( "Error reading user input.\n" );
   } else if ( userinputready > 0 ) {
     /* There are some data from the user. Read the data */
-    strncpy( userinputaux, zerochar, BUF_SIZE );
-    nread = read( STDIN_FILENO, userinputaux, BUF_SIZE );
+    nread = read( STDIN_FILENO, userinputaux, BUF_SIZE-2 );
+    if ( nread == -1 ) {
+      printf( "Error reading message from user.\n" );
+      return;
+   }
     /* Send the data to the engine */
-    assert( nread+1 < BUF_SIZE-1 );
-    if ( strcmp(userinputaux,"quit") == 0 || strcmp(userinputaux,"quit\n") == 0 ) {
-	  SET (flags, QUIT);
-    }
+    assert( nread <= BUF_SIZE-2 );
     userinputaux[nread] = '\n';
     userinputaux[nread+1] = '\0';
+    if ( strcmp(userinputaux,"quit\n") == 0 || strcmp(userinputaux,"quit\n\n") == 0 ) {
+         SET (flags, QUIT);
+    }
     int outError=0;
     int msg_count=0;
     msg_count = write( pipefd_a2e[1], userinputaux, nread+1 );
@@ -538,7 +551,7 @@ void ForwardEngineOutputToUser( void )
   fd_set set[1];
   struct timeval time_val[1];
   int engineinputready=0;
-  char engineinputaux[BUF_SIZE+1]="";
+  char engineinputaux[BUF_SIZE]="";
 
   /* Poll input from engine in non-blocking mode */
   FD_ZERO(set);
@@ -551,15 +564,13 @@ void ForwardEngineOutputToUser( void )
     printf( "Error reading engine input.\n" );
   } else if ( engineinputready > 0 ) {
     /* There are some data from the engine. Read the data */
-    strncpy( engineinputaux, zerochar, BUF_SIZE+1 );
-    nread = read( pipefd_e2a[0], engineinputaux, BUF_SIZE+1 );
-    /* Write data to output */
-    assert( nread <= BUF_SIZE+1 );
-    if (nread < BUF_SIZE+1) {
-      engineinputaux[nread] = '\0';
-    } else {
-      engineinputaux[BUF_SIZE] = '\0';
+    nread = read( pipefd_e2a[0], engineinputaux, BUF_SIZE );
+    if ( nread == -1 ) {
+      printf( "Error reading message from engine.\n" );
+      return;
     }
+    /* Write data to output */
+    assert( nread <= BUF_SIZE );
     ssize_t r = write( STDOUT_FILENO, engineinputaux, nread );
     if ( r == -1 ) {
       printf( "Error sending message to engine.\n" );
