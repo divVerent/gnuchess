@@ -6,9 +6,9 @@
 #, fuzzy
 msgid ""
 msgstr ""
-"Project-Id-Version: gnuchess 6.3.0-pre3\n"
+"Project-Id-Version: gnuchess 6.3.0-pre4\n"
 "Report-Msgid-Bugs-To: bug-gnu-chess@gnu.org\n"
-"POT-Creation-Date: 2025-07-06 12:04+0200\n"
+"POT-Creation-Date: 2025-07-13 11:03+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -753,10 +753,10 @@ msgstr ""
 msgid "Cannot open file %s\n"
 msgstr ""
 
-#: src/frontend/input.cc:150
+#: src/frontend/input.cc:151
 msgid "Black"
 msgstr ""
 
-#: src/frontend/input.cc:150
+#: src/frontend/input.cc:151
 msgid "White"
 msgstr ""

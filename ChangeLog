@@ -1,3 +1,8 @@
+2025-07-11  Rudolf Polzer  <divverent@gmail.com>  (tiny change)
+
+	* Fix array out of bound on empty move
+	* Fix endless loop on empty input or end of input
+
 2025-07-06  Antonio Ceballos  <aceballos@gmail.com>
 
 	* Pre-release 6.3.0-pre3
