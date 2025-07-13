@@ -2,7 +2,7 @@
 
    GNU Chess frontend
 
-   Copyright (C) 2001-2020 Free Software Foundation, Inc.
+   Copyright (C) 2001-2025 Free Software Foundation, Inc.
 
    GNU Chess is based on the two research programs
    Cobalt by Chua Kong-Sian and Gazebo by Stuart Cracraft.
@@ -515,7 +515,7 @@ void input_wakeup(void);
  * Input routine, initialized to one of the specific
  * input routines. The given argument is the prompt.
  */
-extern void (*get_line) (char *);
+extern int (*get_line) (char *);
 
 #define BUF_SIZE 4096
 

@@ -2,7 +2,7 @@
 
    GNU Chess frontend
 
-   Copyright (C) 2001-2020 Free Software Foundation, Inc.
+   Copyright (C) 2001-2025 Free Software Foundation, Inc.
 
    GNU Chess is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -54,7 +54,7 @@ extern char* readline(char *);
 extern void add_history(char *);
 # endif
 #endif
-void (*get_line)(char * p);
+int (*get_line)(char * p);
 
 /* Variable used to communicate with the main thread */
 volatile int input_status = INPUT_NONE;
@@ -71,7 +71,7 @@ pthread_mutex_t     input_mutex = PTHREAD_MUTEX_INITIALIZER;
  */
 
 #ifdef HAVE_LIBREADLINE
-void getline_readline(char * p)
+int getline_readline(char * p)
 {
   char *inp;
 
@@ -86,18 +86,19 @@ void getline_readline(char * p)
   if (inp) {
     free(inp);
   }
+  return inp != NULL;
 }
 #endif /* HAVE_LIBREADLINE */
 
 /* The generic input routine */
 
-void getline_standard(char *p)
+int getline_standard(char *p)
 {
   if (!(flags & XBOARD)) {
     fputs(p, stdout);
     fflush(stdout);
   }
-  if ( fgets(userinputstr, MAXSTR, stdin) );  // TODO Handle return value
+  return fgets(userinputstr, MAXSTR, stdin) != NULL;
 }
 
 /*
@@ -150,7 +151,9 @@ void *input_func(void *arg __attribute__((unused)) )
 	      RealSide ? _("Black") : _("White"), 
 	      (RealGameCnt+1)/2 + 1 );
     }
-    get_line(prompt);
+    if (!get_line(prompt)) {
+      SET(flags, QUIT);
+    }
     SendToFrontend( userinputstr );
 #ifdef HAVE_LIBREADLINE
     const char new_line[]="\n";

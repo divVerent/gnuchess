@@ -523,7 +523,7 @@ void ForwardUserInputToEngine( void )
     assert( nread <= BUF_SIZE-2 );
     userinputaux[nread] = '\n';
     userinputaux[nread+1] = '\0';
-    if ( strcmp(userinputaux,"quit\n") == 0 || strcmp(userinputaux,"quit\n\n") == 0 ) {
+    if ( nread == 0 || strcmp(userinputaux,"quit\n") == 0 || strcmp(userinputaux,"quit\n\n") == 0 ) {
          SET (flags, QUIT);
     }
     int outError=0;
